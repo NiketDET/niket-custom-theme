@@ -1,0 +1,626 @@
+{% doc %}
+  @prompt
+    🔧 Functionality:
+    Split Slider Comparison: Create a draggable horizontal slider that lets users compare two product images side by side (Before/After effect).
+    
+    Text Reveal on Slide:
+    
+    By default, both texts (on left and right) are hidden.
+    
+    Text appears only when user slides to that side.
+    
+    Responsive Design: Ensure it works perfectly on desktop, tablet, and mobile (with vertical split option on mobile if needed).
+    
+    🖼️ Content Options (in Theme Customizer):
+    Left Side (Before) Options:
+    
+    Image Upload
+    
+    Title Text (e.g., "Gold Tone")
+    
+    Subtitle Text (e.g., "Flow Harmony")
+    
+    Text Color Picker
+    
+    Text Position (Bottom Left, Center, Top Left)
+    
+    Right Side (After) Options:
+    
+    Image Upload
+    
+    Title Text (e.g., "Crimson Shadow")
+    
+    Subtitle Text (e.g., "Flow Harmony")
+    
+    Text Color Picker
+    
+    Text Position (Bottom Right, Center, Top Right)
+    
+    Header Content:
+    
+    Small Subtitle (e.g., “Sound in Spectrum”)
+    
+    Heading Text (e.g., “Vibrant Headphone Choices”)
+    
+    Heading Color Picker
+    
+    Slider Styling:
+    
+    Handle Icon/Style (optional upload or select from default)
+    
+    Slider Line Color
+    
+    🚫 Limitations:
+    Avoid using app-based sliders; this should be built natively in Liquid/JavaScript.
+    
+    Don't use hover interactions to reveal text—only reveal when the slider is moved.
+    
+    No animation on load; keep it performance-optimized for speed.
+    
+    Max 1 instance per page (for performance reasons).
+    
+    ✅ Summary:
+    Create a fully customizable Before & After image comparison section with text that reveals only when that side is revealed via the slider. All image/text/styling options should be easily editable through the Shopify theme customizer.
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-split-slider-container-{{ ai_gen_id }} {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .ai-split-slider-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .ai-split-slider-subtitle-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.header_color }};
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ai-split-slider-heading-{{ ai_gen_id }} {
+    font-size: 32px;
+    color: {{ block.settings.header_color }};
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .ai-split-slider-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: {{ block.settings.slider_height }}px;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+    background: #f0f0f0;}
+
+  .ai-split-slider-side-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 30px;
+  }
+
+  .ai-split-slider-left-{{ ai_gen_id }} {
+    left: 0;
+    clip-path: inset(0 50% 0 0);
+    {% if block.settings.left_image %}
+      background-image: url('{{ block.settings.left_image | image_url: width: 1200 }}');
+    {% endif %}
+  }
+
+  .ai-split-slider-right-{{ ai_gen_id }} {
+    right: 0;
+    clip-path: inset(0 0 0 50%);
+    justify-content: flex-end;
+    {% if block.settings.right_image %}
+      background-image: url('{{ block.settings.right_image | image_url: width: 1200 }}');
+    {% endif %}
+  }
+
+  .ai-split-slider-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;}
+
+  .ai-split-slider-placeholder-{{ ai_gen_id }} svg {
+    width: 100px;
+    height: 100px;
+    opacity: 0.3;
+  }
+
+  .ai-split-slider-text-{{ ai_gen_id }} {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-align: left;
+  }
+
+  .ai-split-slider-text-right-{{ ai_gen_id }} {
+    text-align: right;
+  }
+
+  .ai-split-slider-text-center-{{ ai_gen_id }} {
+    align-self: center;
+    text-align: center;
+  }
+
+  .ai-split-slider-text-top-{{ ai_gen_id }} {
+    align-self: flex-start;
+  }
+
+  .ai-split-slider-title-{{ ai_gen_id }} {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 5px;
+    color: {{ block.settings.left_text_color }};
+  }
+
+  .ai-split-slider-subtitle-text-{{ ai_gen_id }} {
+    font-size: 16px;
+    margin: 0;
+    color: {{ block.settings.left_text_color }};
+  }
+
+  .ai-split-slider-right-{{ ai_gen_id }} .ai-split-slider-title-{{ ai_gen_id }} {
+    color: {{ block.settings.right_text_color }};
+  }
+
+  .ai-split-slider-right-{{ ai_gen_id }} .ai-split-slider-subtitle-text-{{ ai_gen_id }} {
+    color: {{ block.settings.right_text_color }};
+  }
+
+  .ai-split-slider-handle-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: {{ block.settings.slider_line_color }};
+    cursor: ew-resize;
+    z-index: 10;
+    transform: translateX(-50%);
+  }
+
+  .ai-split-slider-handle-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    background: {{ block.settings.slider_line_color }};
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-split-slider-handle-{{ ai_gen_id }}::after {
+    content: '⟷';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .ai-split-slider-text-visible-{{ ai_gen_id }} {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-split-slider-wrapper-{{ ai_gen_id }} {
+      height: {{ block.settings.mobile_height }}px;
+    }
+
+    .ai-split-slider-heading-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-split-slider-side-{{ ai_gen_id }} {
+      padding: 20px;
+    }
+
+    .ai-split-slider-title-{{ ai_gen_id }} {
+      font-size: 20px;
+    }
+
+    .ai-split-slider-subtitle-text-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+
+    {% if block.settings.mobile_layout == 'vertical' %}
+      .ai-split-slider-wrapper-{{ ai_gen_id }} {
+        height: {{ block.settings.mobile_height | times: 2 }}px;
+      }
+
+      .ai-split-slider-left-{{ ai_gen_id }} {
+        clip-path: inset(50% 0 0 0);
+      }
+
+      .ai-split-slider-right-{{ ai_gen_id }} {
+        clip-path: inset(0 0 50% 0);
+        align-items: flex-start;
+      }
+
+      .ai-split-slider-handle-{{ ai_gen_id }} {
+        width: 100%;
+        height: 4px;
+        top: 50%;
+        left: 0;
+        cursor: ns-resize;
+        transform: translateY(-50%);
+      }
+
+      .ai-split-slider-handle-{{ ai_gen_id }}::after {
+        content: '↕';
+      }
+    {% endif %}
+  }
+{% endstyle %}<split-slider-{{ ai_gen_id }}
+  class="ai-split-slider-container-{{ ai_gen_id }}"
+  data-mobile-layout="{{ block.settings.mobile_layout }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.header_subtitle != blank or block.settings.header_title != blank %}
+    <div class="ai-split-slider-header-{{ ai_gen_id }}">
+      {% if block.settings.header_subtitle != blank %}
+        <div class="ai-split-slider-subtitle-{{ ai_gen_id }}">{{ block.settings.header_subtitle }}</div>
+      {% endif %}
+      {% if block.settings.header_title != blank %}
+        <h2 class="ai-split-slider-heading-{{ ai_gen_id }}">{{ block.settings.header_title }}</h2>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="ai-split-slider-wrapper-{{ ai_gen_id }}">
+    <div class="ai-split-slider-side-{{ ai_gen_id }} ai-split-slider-left-{{ ai_gen_id }}">
+      {% unless block.settings.left_image %}
+        <div class="ai-split-slider-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endunless %}
+      {% if block.settings.left_title != blank or block.settings.left_subtitle != blank %}
+        <div class="ai-split-slider-text-{{ ai_gen_id }} ai-split-slider-text-{{ block.settings.left_text_position }}-{{ ai_gen_id }}">
+          {% if block.settings.left_title != blank %}
+            <h3 class="ai-split-slider-title-{{ ai_gen_id }}">{{ block.settings.left_title }}</h3>
+          {% endif %}
+          {% if block.settings.left_subtitle != blank %}
+            <p class="ai-split-slider-subtitle-text-{{ ai_gen_id }}">{{ block.settings.left_subtitle }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div><div class="ai-split-slider-side-{{ ai_gen_id }} ai-split-slider-right-{{ ai_gen_id }}">
+      {% unless block.settings.right_image %}
+        <div class="ai-split-slider-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endunless %}
+      {% if block.settings.right_title != blank or block.settings.right_subtitle != blank %}
+        <div class="ai-split-slider-text-{{ ai_gen_id }} ai-split-slider-text-{{ block.settings.right_text_position }}-{{ ai_gen_id }}">
+          {% if block.settings.right_title != blank %}
+            <h3 class="ai-split-slider-title-{{ ai_gen_id }}">{{ block.settings.right_title }}</h3>
+          {% endif %}
+          {% if block.settings.right_subtitle != blank %}
+            <p class="ai-split-slider-subtitle-text-{{ ai_gen_id }}">{{ block.settings.right_subtitle }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-split-slider-handle-{{ ai_gen_id }}"></div>
+  </div>
+</split-slider-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SplitSlider{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.isDragging = false;
+        this.currentPosition = 50;
+        this.isVertical = false;}
+
+      connectedCallback() {
+        this.wrapper = this.querySelector('.ai-split-slider-wrapper-{{ ai_gen_id }}');
+        this.handle = this.querySelector('.ai-split-slider-handle-{{ ai_gen_id }}');
+        this.leftSide = this.querySelector('.ai-split-slider-left-{{ ai_gen_id }}');
+        this.rightSide = this.querySelector('.ai-split-slider-right-{{ ai_gen_id }}');
+        this.leftText = this.leftSide.querySelector('.ai-split-slider-text-{{ ai_gen_id }}');
+        this.rightText = this.rightSide.querySelector('.ai-split-slider-text-{{ ai_gen_id }}');
+
+        this.checkMobileLayout();
+        this.setupEventListeners();
+        this.updateTextVisibility();
+
+        window.addEventListener('resize', () => {
+          this.checkMobileLayout();
+        });
+      }
+
+      checkMobileLayout() {
+        const mobileLayout = this.dataset.mobileLayout;
+        this.isVertical = window.innerWidth <= 768 && mobileLayout === 'vertical';
+      }
+
+      setupEventListeners() {
+        this.handle.addEventListener('mousedown', this.startDrag.bind(this));
+        this.handle.addEventListener('touchstart', this.startDrag.bind(this));
+        document.addEventListener('mousemove', this.drag.bind(this));
+        document.addEventListener('touchmove', this.drag.bind(this));
+        
+        document.addEventListener('mouseup', this.stopDrag.bind(this));
+        document.addEventListener('touchend', this.stopDrag.bind(this));
+      }
+
+      startDrag(e) {
+        this.isDragging = true;
+        e.preventDefault();
+      }
+
+      drag(e) {
+        if (!this.isDragging) return;
+
+        const rect = this.wrapper.getBoundingClientRect();
+        let position;
+
+        if (this.isVertical) {
+          const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+          position = ((clientY - rect.top) / rect.height) * 100;
+        } else {
+          const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+          position = ((clientX - rect.left) / rect.width) * 100;
+        }
+
+        position = Math.max(0, Math.min(100, position));
+        this.currentPosition = position;
+        this.updateSlider();this.updateTextVisibility();
+      }
+
+      stopDrag() {
+        this.isDragging = false;
+      }
+
+      updateSlider() {
+        if (this.isVertical) {
+          this.handle.style.top = this.currentPosition + '%';
+          this.handle.style.left = '0';
+          this.leftSide.style.clipPath = `inset(${this.currentPosition}% 0 0 0)`;
+          this.rightSide.style.clipPath = `inset(0 0 ${100 - this.currentPosition}% 0)`;
+        } else {
+          this.handle.style.left = this.currentPosition + '%';
+          this.handle.style.top = '0';
+          this.leftSide.style.clipPath = `inset(0 ${100 - this.currentPosition}% 0 0)`;
+          this.rightSide.style.clipPath = `inset(0 0 0 ${this.currentPosition}%)`;
+        }
+      }
+
+      updateTextVisibility() {
+        const threshold = 20;
+        
+        if (this.leftText) {
+          if (this.currentPosition > threshold) {
+            this.leftText.classList.add('ai-split-slider-text-visible-{{ ai_gen_id }}');
+          } else {
+            this.leftText.classList.remove('ai-split-slider-text-visible-{{ ai_gen_id }}');
+          }
+        }
+
+        if (this.rightText) {
+          if (this.currentPosition < (100 - threshold)) {
+            this.rightText.classList.add('ai-split-slider-text-visible-{{ ai_gen_id }}');
+          } else {
+            this.rightText.classList.remove('ai-split-slider-text-visible-{{ ai_gen_id }}');
+          }
+        }
+      }
+    }
+
+    customElements.define('split-slider-{{ ai_gen_id }}', SplitSlider{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Split Slider Comparison",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "text",
+      "id": "header_subtitle",
+      "label": "Small subtitle",
+      "default": "Sound in Spectrum"
+    },
+    {
+      "type": "text",
+      "id": "header_title",
+      "label": "Heading text",
+      "default": "Vibrant Headphone Choices"
+    },
+    {
+      "type": "color",
+      "id": "header_color",
+      "label": "Header color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Left Side (Before)"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left image"
+    },
+    {
+      "type": "text",
+      "id": "left_title",
+      "label": "Left title",
+      "default": "Gold Tone"
+    },
+    {
+      "type": "text",
+      "id": "left_subtitle",
+      "label": "Left subtitle",
+      "default": "Flow Harmony"
+    },
+    {
+      "type": "color",
+      "id": "left_text_color",
+      "label": "Left text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "left_text_position",
+      "label": "Left text position",
+      "options": [
+        {
+          "value": "bottom",
+          "label": "Bottom Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top Left"
+        }
+      ],
+      "default": "bottom"
+    },
+    {
+      "type": "header",
+      "content": "Right Side (After)"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right image"
+    },
+    {
+      "type": "text",
+      "id": "right_title",
+      "label": "Right title",
+      "default": "Crimson Shadow"
+    },
+    {
+      "type": "text",
+      "id": "right_subtitle",
+      "label": "Right subtitle",
+      "default": "Flow Harmony"
+    },
+    {
+      "type": "color",
+      "id": "right_text_color",
+      "label": "Right text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "right_text_position",
+      "label": "Right text position",
+      "options": [
+        {
+          "value": "bottom",
+          "label": "Bottom Right"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top Right"
+        }
+      ],
+      "default": "bottom"
+    },
+    {
+      "type": "header",
+      "content": "Slider Styling"
+    },
+    {
+      "type": "color",
+      "id": "slider_line_color",
+      "label": "Slider line color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "slider_height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 200,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "label": "Mobile height",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "Horizontal"
+        },
+        {
+          "value": "vertical",
+          "label": "Vertical"
+        }
+      ],
+      "default": "horizontal"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Split Slider Comparison"
+    }
+  ]
+}
+{% endschema %}

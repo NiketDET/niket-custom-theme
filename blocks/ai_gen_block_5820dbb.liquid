@@ -1,0 +1,1236 @@
+{% doc %}
+  @prompt
+    Section Name: Interactive Product Hotspot Slider
+    
+    Section Description:
+    This section is a premium product showcase that combines an interactive lifestyle image with a dynamic product slider. It is ideal for highlighting high-end items like speakers, furniture, or decor products in a contextual setting.
+    
+    Functionality Overview:
+    
+    Left Side – Lifestyle Image with Hotspots:
+    
+    Upload a custom lifestyle image.
+    
+    Add multiple interactive hotspots (white dots) over the image via blocks.
+    
+    Each hotspot is linked to a specific product.
+    
+    When a user hovers over a hotspot, the product slider on the right updates to show the corresponding product.
+    
+    Right Side – Product Slider:
+    
+    Automatically displays the product linked to the hovered hotspot.
+    
+    Includes navigation controls (slider dots or arrows) to browse manually.
+    
+    Shows product image, brand name, product title, price, and rating.
+    
+    Add metafields or tags to enable icon indicators (like sound modes or finishes).
+    
+    Styled as a clean card with subtle shadows and modern layout.
+    
+    Block Settings:
+    
+    Each Hotspot Block includes:
+    
+    X-axis position (percentage or pixel)
+    
+    Y-axis position (percentage or pixel)
+    
+    Associated product (via product picker)
+    
+    Optional: Tooltip or label text (e.g., “Speaker 1”)
+    
+    Each Product Card includes:
+    
+    Product (linked via the hotspot)
+    
+    Enable/disable rating display
+    
+    Enable/disable icons (based on tags/metafields)
+    
+    Option to add product badges or labels
+    
+    Customization Options:
+    
+    Section background color or gradient
+    
+    Image aspect ratio or full-height toggle
+    
+    Number of visible products in slider (e.g., 1 or 2)
+    
+    Mobile and desktop behavior (e.g., tap instead of hover)
+    
+    Example Use Case:
+    Showcase a living room setup with clickable speaker hotspots that update the product slider on the right, making it easier for customers to visualize and buy the product they see in the room., 🔧 Additional Feature Requirements for "Interactive Product Hotspot Slider" Section
+    1. 🧠 Tooltip on Hover
+    Feature:
+    When hovering over a hotspot (white circular point) on the lifestyle image, a custom tooltip should appear near the hotspot.
+    
+    Tooltip Includes:
+    
+    Product image
+    
+    Product title
+    
+    Product price
+    
+    Tooltip Design:
+    
+    Rounded corners
+    
+    Slight shadow
+    
+    Positioned smartly to avoid clipping outside the image
+    
+    Customization Options:
+    
+    Option to enable/disable tooltip display
+    
+    Tooltip position (auto, top, bottom, left, right)
+    
+    Font and background customization
+    
+    2. 🖱️ Enable Drag/Swipe on Product Slider
+    Issue:
+    Currently, products can only be change
+
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hotspot-slider-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+    background: {{ block.settings.background_color }};
+    min-height: {{ block.settings.section_height }}px;
+  }
+
+  .ai-hotspot-image-container-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-hotspot-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-hotspot-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-hotspot-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .ai-hotspot-dot-{{ ai_gen_id }} {
+    position: absolute;
+    width: {{ block.settings.hotspot_size }}px;
+    height: {{ block.settings.hotspot_size }}px;
+    background-color: {{ block.settings.hotspot_color }};
+    border: 2px solid {{ block.settings.hotspot_border_color }};
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+    z-index: 2;
+  }
+
+  .ai-hotspot-dot-{{ ai_gen_id }}:hover,
+  .ai-hotspot-dot-{{ ai_gen_id }}.active {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .ai-hotspot-dot-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    border: 1px solid {{ block.settings.hotspot_color }};
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+    animation: ai-hotspot-pulse-{{ ai_gen_id }} 2s infinite;
+  }
+
+  @keyframes ai-hotspot-pulse-{{ ai_gen_id }} {
+    0% {
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 0.3;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  .ai-hotspot-tooltip-{{ ai_gen_id }} {
+    position: absolute;
+    background: {{ block.settings.tooltip_background }};
+    border-radius: {{ block.settings.tooltip_border_radius }}px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 12px;
+    width: {{ block.settings.tooltip_width }}px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 10;
+    pointer-events: none;
+    top: calc(100% + 15px);
+    left: 50%;
+  }
+
+  .ai-hotspot-tooltip-{{ ai_gen_id }}.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .ai-hotspot-tooltip-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid {{ block.settings.tooltip_background }};}
+
+  .ai-tooltip-content-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    align-items: center;}
+
+  .ai-tooltip-image-{{ ai_gen_id }} {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .ai-tooltip-image-placeholder-{{ ai_gen_id }} {
+    width: 50px;
+    height: 50px;
+    background-color: #f4f4f4;
+    border-radius: 6px;
+    flex-shrink: 0;display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-tooltip-image-placeholder-{{ ai_gen_id }} svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .ai-tooltip-info-{{ ai_gen_id }} {
+    flex-grow: 1;
+  }
+
+  .ai-tooltip-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.tooltip_title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.tooltip_text_color }};
+    margin: 0 0 4px;line-height: 1.2;
+  }
+
+  .ai-tooltip-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.tooltip_price_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.tooltip_price_color }};
+    margin: 0;
+  }
+
+  .ai-product-slider-container-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-product-slider-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    cursor: grab;
+  }
+
+  .ai-product-slider-wrapper-{{ ai_gen_id }}:active {
+    cursor: grabbing;
+  }
+
+  .ai-product-slider-track-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.4s ease;
+    will-change: transform;
+  }
+
+  .ai-product-slider-track-{{ ai_gen_id }}.dragging {
+    transition: none;
+  }
+
+  .ai-product-card-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    flex: 0 0 100%;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+
+  .ai-product-image-container-{{ ai_gen_id }} {
+    width: 100%;
+    height: 280px;
+    margin-bottom: 20px;
+    border-radius: {{ block.settings.product_image_radius }}px;
+    overflow: hidden;
+    background-color: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-product-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .ai-product-card-{{ ai_gen_id }}:hover .ai-product-image-{{ ai_gen_id }} {
+    transform: scale(1.05);
+  }
+
+  .ai-product-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-product-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-product-content-{{ ai_gen_id }} {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-product-brand-{{ ai_gen_id }} {
+    font-size: 12px;
+    color: {{ block.settings.brand_color }};
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  .ai-product-title-{{ ai_gen_id }} {
+    font-size: 20px;
+    font-weight: 600;
+    color: {{ block.settings.title_color }};
+    margin-bottom: 12px;
+    line-height: 1.3;
+    flex-grow: 1;
+  }
+
+  .ai-product-price-{{ ai_gen_id }} {
+    font-size: 24px;
+    font-weight: 700;
+    color: {{ block.settings.price_color }};
+    margin-bottom: 16px;}
+
+  .ai-product-rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .ai-rating-stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: 2px;
+  }
+
+  .ai-rating-star-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    fill: {{ block.settings.star_color }};
+  }
+
+  .ai-rating-text-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.rating_text_color }};
+  }
+
+  .ai-product-icons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .ai-product-icon-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 4px;padding: 4px 10px;
+    background: {{ block.settings.icon_background }};
+    border-radius: 16px;
+    font-size: 11px;
+    color: {{ block.settings.icon_text_color }};
+    font-weight: 500;
+  }
+
+  .ai-product-button-{{ ai_gen_id }} {
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    padding: 14px 28px;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    margin-top: auto;
+  }
+
+  .ai-product-button-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_background }};
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-slider-navigation-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .ai-nav-dot-{{ ai_gen_id }} {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: {{ block.settings.nav_dot_color }};
+    opacity: 0.3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-nav-dot-{{ ai_gen_id }}.active {
+    opacity: 1;transform: scale(1.2);
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-hotspot-slider-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .ai-hotspot-image-container-{{ ai_gen_id }} {
+      min-height: 300px;
+    }
+
+    .ai-product-card-{{ ai_gen_id }} {
+      padding: 20px;
+    }
+
+    .ai-product-image-container-{{ ai_gen_id }} {
+      height: 220px;
+    }
+
+    .ai-hotspot-tooltip-{{ ai_gen_id }} {
+      width: {{ block.settings.tooltip_width | times: 0.8 }}px;
+    }
+
+    .ai-product-title-{{ ai_gen_id }} {
+      font-size: 18px;
+    }
+
+    .ai-product-price-{{ ai_gen_id }} {
+      font-size: 20px;
+    }
+
+    .ai-hotspot-dot-{{ ai_gen_id }} {
+      width: {{ block.settings.hotspot_size | times: 1.2 }}px;
+      height: {{ block.settings.hotspot_size | times: 1.2 }}px;
+    }
+  }
+{% endstyle %}
+
+<hotspot-slider-{{ ai_gen_id }}
+  class="ai-hotspot-slider-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-hotspot-image-container-{{ ai_gen_id }}">
+    {% if block.settings.lifestyle_image %}
+      <img
+        src="{{ block.settings.lifestyle_image | image_url: width: 800 }}"
+        alt="{{ block.settings.lifestyle_image.alt | escape }}"
+        class="ai-hotspot-image-{{ ai_gen_id }}"loading="lazy"
+      >
+    {% else %}
+      <div class="ai-hotspot-placeholder-{{ ai_gen_id }}">
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+
+    {% assign active_hotspot_count = 0 %}
+    {% for i in (1..5) %}
+      {% liquid
+        assign hotspot_enabled_key = 'hotspot_' | append: i | append: '_enabled'
+        assign hotspot_x_key = 'hotspot_' | append: i | append: '_x'
+        assign hotspot_y_key = 'hotspot_' | append: i | append: '_y'
+        assign product_key = 'hotspot_' | append: i | append: '_product'
+
+        assign hotspot_enabled = block.settings[hotspot_enabled_key]
+        assign hotspot_x = block.settings[hotspot_x_key]
+        assign hotspot_y = block.settings[hotspot_y_key]
+        assign product = block.settings[product_key]
+      %}
+
+      {% if hotspot_enabled and product %}
+        <div
+          class="ai-hotspot-dot-{{ ai_gen_id }}"
+          style="left: {{ hotspot_x }}%; top: {{ hotspot_y }}%;"
+          data-product-index="{{ active_hotspot_count }}"
+        >
+          <div class="ai-hotspot-tooltip-{{ ai_gen_id }}">
+            <div class="ai-tooltip-content-{{ ai_gen_id }}">
+              {% if product.featured_image %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 100 }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  class="ai-tooltip-image-{{ ai_gen_id }}"
+                  loading="lazy"
+                >
+              {% else %}
+                <div class="ai-tooltip-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+              <div class="ai-tooltip-info-{{ ai_gen_id }}">
+                <h4 class="ai-tooltip-title-{{ ai_gen_id }}">{{ product.title | truncate: 30 }}</h4>
+                <p class="ai-tooltip-price-{{ ai_gen_id }}">{{ product.price | money }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% assign active_hotspot_count = active_hotspot_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="ai-product-slider-container-{{ ai_gen_id }}">
+    <div class="ai-product-slider-wrapper-{{ ai_gen_id }}">
+      <div class="ai-product-slider-track-{{ ai_gen_id }}">
+        {% assign product_index = 0 %}
+        {% for i in (1..5) %}
+          {% liquid
+            assign hotspot_enabled_key = 'hotspot_' | append: i | append: '_enabled'
+            assign product_key = 'hotspot_' | append: i | append: '_product'
+            assign hotspot_enabled = block.settings[hotspot_enabled_key]
+            assign product = block.settings[product_key]
+          %}
+
+          {% if hotspot_enabled and product %}
+            <div
+              class="ai-product-card-{{ ai_gen_id }}"
+              data-product-index="{{ product_index }}"
+            >
+              <div class="ai-product-image-container-{{ ai_gen_id }}">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 500 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="ai-product-image-{{ ai_gen_id }}"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="ai-product-image-placeholder-{{ ai_gen_id }}">
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="ai-product-content-{{ ai_gen_id }}">
+                {% if product.vendor and block.settings.show_brand %}
+                  <div class="ai-product-brand-{{ ai_gen_id }}">{{ product.vendor }}</div>
+                {% endif %}
+
+                <h3 class="ai-product-title-{{ ai_gen_id }}">{{ product.title }}</h3><div class="ai-product-price-{{ ai_gen_id }}">{{ product.price | money }}</div>
+
+                {% if block.settings.show_rating %}
+                  <div class="ai-product-rating-{{ ai_gen_id }}">
+                    <div class="ai-rating-stars-{{ ai_gen_id }}">
+                      {% for star in (1..5) %}<svg class="ai-rating-star-{{ ai_gen_id }}" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                      {% endfor %}
+                    </div>
+                    <span class="ai-rating-text-{{ ai_gen_id }}">{{ block.settings.rating_text }}</span>
+                  </div>
+                {% endif %}
+
+                {% if block.settings.show_icons and product.tags.size > 0 %}
+                  <div class="ai-product-icons-{{ ai_gen_id }}">
+                    {% for tag in product.tags limit: 3 %}
+                      <span class="ai-product-icon-{{ ai_gen_id }}">
+                        {{ tag }}
+                      </span>
+                    {% endfor %}
+                  </div>
+                {% endif %}<a href="{{ product.url }}" class="ai-product-button-{{ ai_gen_id }}">
+                  {{ block.settings.button_text }}
+                </a>
+              </div>
+            </div>
+            {% assign product_index = product_index | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if active_hotspot_count > 1 %}
+      <div class="ai-slider-navigation-{{ ai_gen_id }}">
+        {% for i in (0..active_hotspot_count) %}
+          {% if i < active_hotspot_count %}
+            <div
+              class="ai-nav-dot-{{ ai_gen_id }} {% if i == 0 %}active{% endif %}"
+              data-slide-index="{{ i }}"></div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</hotspot-slider-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class HotspotSlider{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentIndex = 0;
+        this.isDragging = false;
+        this.startX = 0;
+        this.currentX = 0;
+        this.initialTransform = 0;
+        this.dragThreshold = 50;
+        this.totalProducts = 0;
+      }
+
+      connectedCallback() {
+        this.hotspots = this.querySelectorAll('.ai-hotspot-dot-{{ ai_gen_id }}');
+        this.productCards = this.querySelectorAll('.ai-product-card-{{ ai_gen_id }}');
+        this.navDots = this.querySelectorAll('.ai-nav-dot-{{ ai_gen_id }}');
+        this.sliderTrack = this.querySelector('.ai-product-slider-track-{{ ai_gen_id }}');
+        this.sliderWrapper = this.querySelector('.ai-product-slider-wrapper-{{ ai_gen_id }}');
+        this.tooltips = this.querySelectorAll('.ai-hotspot-tooltip-{{ ai_gen_id }}');
+        
+        this.totalProducts = this.productCards.length;
+        this.setupEventListeners();
+        this.updateSliderPosition();
+      }
+
+      setupEventListeners() {
+        this.hotspots.forEach((hotspot, index) => {
+          const tooltip = hotspot.querySelector('.ai-hotspot-tooltip-{{ ai_gen_id }}');
+          
+          hotspot.addEventListener('mouseenter', () => {
+            this.showProduct(index);
+            if (tooltip) {
+              tooltip.classList.add('visible');
+            }
+          });
+
+          hotspot.addEventListener('mouseleave', () => {
+            if (tooltip) {
+              tooltip.classList.remove('visible');
+            }
+          });
+
+          hotspot.addEventListener('click', () => {
+            this.showProduct(index);
+          });
+        });
+
+        this.navDots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            this.showProduct(index);
+          });
+        });
+
+        if (this.sliderWrapper && this.sliderTrack) {
+          this.sliderWrapper.addEventListener('mousedown', this.handleDragStart.bind(this));
+          this.sliderWrapper.addEventListener('touchstart', this.handleDragStart.bind(this), { passive: false });document.addEventListener('mousemove', this.handleDragMove.bind(this));
+          document.addEventListener('touchmove', this.handleDragMove.bind(this), { passive: false });
+          
+          document.addEventListener('mouseup', this.handleDragEnd.bind(this));
+          document.addEventListener('touchend', this.handleDragEnd.bind(this));
+          this.sliderWrapper.addEventListener('dragstart', (e) => e.preventDefault());
+        }
+      }
+
+      showProduct(index) {
+        if (index >= 0 && index < this.totalProducts) {
+          this.currentIndex = index;
+          this.updateSliderPosition();
+          this.updateActiveStates();
+        }
+      }
+
+      updateSliderPosition() {
+        if (this.sliderTrack) {
+          const translateX = -this.currentIndex *100;
+          this.sliderTrack.style.transform = `translateX(${translateX}%)`;
+        }
+      }
+
+      updateActiveStates() {
+        this.hotspots.forEach((hotspot, hotspotIndex) => {
+          hotspot.classList.toggle('active', hotspotIndex === this.currentIndex);
+        });
+
+        this.navDots.forEach((dot, dotIndex) => {
+          dot.classList.toggle('active', dotIndex === this.currentIndex);
+        });
+      }
+
+      handleDragStart(e) {
+        this.isDragging = true;
+        this.sliderTrack.classList.add('dragging');
+        
+        this.startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        this.initialTransform = -this.currentIndex * 100;
+        
+        e.preventDefault();
+      }
+
+      handleDragMove(e) {
+        if (!this.isDragging) return;
+        
+        e.preventDefault();
+        
+        this.currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        const deltaX = this.currentX - this.startX;
+        const dragPercentage = (deltaX / this.sliderWrapper.offsetWidth) * 100;
+        
+        const newTransform = this.initialTransform + dragPercentage;
+        this.sliderTrack.style.transform = `translateX(${newTransform}%)`;
+      }
+
+      handleDragEnd(e) {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        this.sliderTrack.classList.remove('dragging');
+        
+        const deltaX = this.currentX - this.startX;
+        const maxIndex = this.totalProducts - 1;
+        
+        if (Math.abs(deltaX) > this.dragThreshold) {
+          if (deltaX > 0 && this.currentIndex > 0) {
+            this.currentIndex--;
+          } else if (deltaX < 0 && this.currentIndex < maxIndex) {
+            this.currentIndex++;
+          }
+        }
+        
+        this.updateSliderPosition();
+        this.updateActiveStates();
+      }
+    }
+
+    customElements.define('hotspot-slider-{{ ai_gen_id }}', HotspotSlider{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hotspot Slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "image_picker",
+      "id": "lifestyle_image",
+      "label": "Lifestyle image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 400,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Section height",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Hotspots"
+    },
+    {
+      "type": "range",
+      "id": "hotspot_size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Hotspot size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "hotspot_color",
+      "label": "Hotspot color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "hotspot_border_color",
+      "label": "Hotspot border color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Tooltips"
+    },
+    {
+      "type": "range",
+      "id": "tooltip_width",
+      "min": 150,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Tooltip width",
+      "default": 220
+    },
+    {
+      "type": "color",
+      "id": "tooltip_background",
+      "label": "Tooltip background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tooltip_text_color",
+      "label": "Tooltip text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tooltip_price_color",
+      "label": "Tooltip price color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "tooltip_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Tooltip border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "tooltip_title_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Tooltip title size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "tooltip_price_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Tooltip price size",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Product Cards"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "product_image_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Product image radius",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_brand",
+      "label": "Show brand",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.8 (124 reviews)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icons",
+      "label": "Show product tags as icons",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "View Product"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "brand_color",
+      "label": "Brand color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#ffd700"
+    },
+    {
+      "type": "color",
+      "id": "rating_text_color",
+      "label": "Rating text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "icon_background",
+      "label": "Icon background",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "color",
+      "id": "icon_text_color",
+      "label": "Icon text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "nav_dot_color",
+      "label": "Navigation dot color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Hotspot 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "hotspot_1_enabled",
+      "label": "Enable hotspot 1",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "hotspot_1_x",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal position",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "hotspot_1_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position",
+      "default": 40
+    },
+    {
+      "type": "product",
+      "id": "hotspot_1_product",
+      "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Hotspot 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "hotspot_2_enabled",
+      "label": "Enable hotspot 2",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "hotspot_2_x",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal position",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "hotspot_2_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position",
+      "default": 60
+    },
+    {
+      "type": "product",
+      "id": "hotspot_2_product",
+      "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Hotspot 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "hotspot_3_enabled",
+      "label": "Enable hotspot 3",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "hotspot_3_x",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal position",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "hotspot_3_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position",
+      "default": 30
+    },
+    {
+      "type": "product",
+      "id": "hotspot_3_product",
+      "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Hotspot 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "hotspot_4_enabled",
+      "label": "Enable hotspot 4",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "hotspot_4_x",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "hotspot_4_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position",
+      "default": 70
+    },
+    {
+      "type": "product",
+      "id": "hotspot_4_product",
+      "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Hotspot 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "hotspot_5_enabled",
+      "label": "Enable hotspot 5",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "hotspot_5_x",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Horizontal position",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "hotspot_5_y",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Vertical position",
+      "default": 50
+    },
+    {
+      "type": "product",
+      "id": "hotspot_5_product",
+      "label": "Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hotspot Slider"
+    }
+  ]
+}
+{% endschema %}
