@@ -1,0 +1,350 @@
+{% liquid
+  assign heading_label = section.settings.heading | default: 'Quality badges'
+%}
+
+<div
+  class="quality-commitment quality-commitment--{{ section.id }} quality-commitment--{{ section.settings.section_width }}"
+  style="
+    --qc-bg: {{ section.settings.background_color }};
+    --qc-heading-color: {{ section.settings.heading_color }};
+    --qc-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --qc-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --qc-heading-weight: {{ section.settings.heading_weight }};
+    --qc-logo-height: {{ section.settings.logo_height }}px;
+    --qc-col-gap: {{ section.settings.logo_gap_column }}px;
+    --qc-row-gap: {{ section.settings.logo_gap_row }}px;
+    --qc-heading-gap: {{ section.settings.heading_gap }}px;
+    --qc-desktop-columns: {{ section.settings.desktop_columns }};
+    --qc-padding-top: {{ section.settings.padding_top }}px;
+    --qc-padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="quality-commitment__inner">
+    {% if section.settings.heading != blank %}
+      <h2 class="quality-commitment__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="quality-commitment__logos" role="list" aria-label="{{ heading_label | escape }}">
+      {% for block in section.blocks %}
+        {% if block.settings.logo != blank %}
+          <div class="quality-commitment__logo-item" role="listitem" {{ block.shopify_attributes }}>
+            {% if block.settings.link != blank %}
+              <a
+                class="quality-commitment__logo-link"
+                href="{{ block.settings.link }}"
+                {% if block.settings.open_new_tab %}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                {% endif %}
+              >
+            {% endif %}
+
+            {{
+              block.settings.logo
+              | image_url: width: 420
+              | image_tag:
+                class: 'quality-commitment__logo',
+                widths: '120, 180, 240, 320, 420',
+                loading: 'lazy',
+                alt: block.settings.alt_text
+            }}
+
+            {% if block.settings.link != blank %}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .quality-commitment {
+    width: 100%;
+    background: var(--qc-bg);
+    padding-top: var(--qc-padding-top);
+    padding-bottom: var(--qc-padding-bottom);
+  }
+
+  .quality-commitment__inner {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding-inline: clamp(16px, 2.8vw, 44px);
+  }
+
+  .quality-commitment--page-width .quality-commitment__inner {
+    max-width: 1240px;
+  }
+
+  .quality-commitment__heading {
+    margin: 0;
+    text-align: center;
+    color: var(--qc-heading-color);
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-size: clamp(var(--qc-heading-size-mobile), 4.6vw, var(--qc-heading-size-desktop));
+    font-weight: var(--qc-heading-weight);
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .quality-commitment__logos {
+    margin-top: var(--qc-heading-gap);
+    display: grid;
+    grid-template-columns: repeat(var(--qc-desktop-columns), minmax(0, 1fr));
+    column-gap: var(--qc-col-gap);
+    row-gap: var(--qc-row-gap);
+    align-items: center;
+  }
+
+  .quality-commitment__logo-item {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quality-commitment__logo-link,
+  .quality-commitment__logo {
+    display: block;
+  }
+
+  .quality-commitment__logo {
+    width: auto;
+    max-width: 100%;
+    max-height: var(--qc-logo-height);
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media screen and (max-width: 1199px) {
+    .quality-commitment__logos {
+      margin-inline: auto;
+      max-width: 980px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .quality-commitment__logos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Quality commitment badges",
+  "tag": "section",
+  "class": "section-quality-commitment",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Commitment to Quality"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size desktop",
+      "min": 30,
+      "max": 86,
+      "step": 1,
+      "unit": "px",
+      "default": 58
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size mobile",
+      "min": 22,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ececef"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full width"
+        },
+        {
+          "value": "page-width",
+          "label": "Page width"
+        }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo max height",
+      "min": 44,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "default": 98
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop columns",
+      "min": 6,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Heading to logos gap",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "logo_gap_column",
+      "label": "Logo column gap",
+      "min": 6,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "logo_gap_row",
+      "label": "Logo row gap",
+      "min": 6,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 220,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 220,
+      "step": 4,
+      "unit": "px",
+      "default": 76
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image alt text",
+          "default": "Quality badge"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_tab",
+          "label": "Open link in new tab",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Quality commitment badges",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "badge"
+        },
+        {
+          "type": "badge"
+        },
+        {
+          "type": "badge"
+        },
+        {
+          "type": "badge"
+        },
+        {
+          "type": "badge"
+        },
+        {
+          "type": "badge"
+        },
+        {
+          "type": "badge"
+        },
+        {
+          "type": "badge"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

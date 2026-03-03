@@ -2475,6 +2475,115 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "quality_commitment_badges_4kLPMR": {
+      "type": "quality-commitment-badges",
+      "blocks": {
+        "badge_cDm8UC": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/Trusted_Since_1995_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_WKFizG": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/Made_in_USA_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_dtp4DJ": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/GMP_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_F6fD6j": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/PDP.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_cr6Xe8": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/Scientifically_Researched_Key_Ingredients_White_1_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_QmfJND": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/NON_GMO_1_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_mnDad7": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/new_logo_2_upscayl_4x_realesrgan-x4plus_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_FneMLG": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/30day_guarantee_png_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_XXqGMN": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/100_Satisfaction_Guarantee_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "badge_cDm8UC",
+        "badge_WKFizG",
+        "badge_dtp4DJ",
+        "badge_F6fD6j",
+        "badge_cr6Xe8",
+        "badge_QmfJND",
+        "badge_mnDad7",
+        "badge_FneMLG",
+        "badge_XXqGMN"
+      ],
+      "name": "Quality commitment badges",
+      "settings": {
+        "heading": "Our Commitment to Quality",
+        "heading_size": "h1",
+        "background_color": "#ececef",
+        "heading_color": "#000000",
+        "section_width": "full-width",
+        "logo_width": 140,
+        "logo_gap": 34,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -2489,6 +2598,7 @@
     "section_bneFrK",
     "section_6epYL3",
     "section_jH6kdd",
-    "section_fDtRQT"
+    "section_fDtRQT",
+    "quality_commitment_badges_4kLPMR"
   ]
 }
