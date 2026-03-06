@@ -1,0 +1,718 @@
+{% liquid
+  assign section_heading = section.settings.heading | default: 'Take the Guesswork Out of Supplements'
+  assign section_description = section.settings.description
+  assign section_button_label = section.settings.button_label
+  assign section_button_link = section.settings.button_link
+
+  assign image_sizes_desktop = '(min-width: 990px) 40vw, (min-width: 750px) 45vw, 100vw'
+  assign image_widths = '240, 360, 480, 640, 800, 960'
+%}
+
+<div
+  class="supplement-quiz supplement-quiz--{{ section.id }} supplement-quiz--{{ section.settings.section_width }} supplement-quiz--content-{{ section.settings.content_position_desktop }}"
+  style="
+    --sq-bg: {{ section.settings.background_color }};
+    --sq-heading-color: {{ section.settings.heading_color }};
+    --sq-text-color: {{ section.settings.text_color }};
+    --sq-button-bg: {{ section.settings.button_background }};
+    --sq-button-text: {{ section.settings.button_text_color }};
+    --sq-button-hover-bg: {{ section.settings.button_hover_background }};
+    --sq-button-hover-text: {{ section.settings.button_hover_text_color }};
+    --sq-section-max-width: {{ section.settings.max_width }}px;
+    --sq-grid-gap: {{ section.settings.layout_gap }}px;
+    --sq-media-gap: {{ section.settings.image_gap }}px;
+    --sq-radius: {{ section.settings.image_corner_radius }}px;
+    --sq-button-radius: {{ section.settings.button_radius }}px;
+    --sq-padding-top: {{ section.settings.padding_top }}px;
+    --sq-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --sq-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --sq-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --sq-body-size-desktop: {{ section.settings.body_size_desktop }}px;
+    --sq-body-size-mobile: {{ section.settings.body_size_mobile }}px;
+    --sq-button-size: {{ section.settings.button_size }}px;
+    --sq-media-ratio: {{ section.settings.image_ratio }};
+    --sq-media-min-height: {{ section.settings.image_min_height }}px;
+    --sq-mobile-media-columns: {{ section.settings.mobile_image_columns }};
+  "
+>
+  <div class="supplement-quiz__inner" style="--max-width: {{ section.settings.content_max_width }}px;">
+    <div class="supplement-quiz__layout supplement-quiz__layout--mobile-{{ section.settings.mobile_order }}">
+      <div class="supplement-quiz__media" aria-label="{{ section_heading | escape }}">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            <div class="supplement-quiz__media-item" {{ block.shopify_attributes }}>
+              {% if block.settings.link != blank %}
+                <a
+                  class="supplement-quiz__media-link"
+                  href="{{ block.settings.link }}"
+                  {% if block.settings.open_new_tab %}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  {% endif %}
+                >
+              {% endif %}
+
+              {% if block.settings.image != blank %}
+                {{
+                  block.settings.image
+                  | image_url: width: 960
+                  | image_tag:
+                    widths: image_widths,
+                    sizes: image_sizes_desktop,
+                    class: 'supplement-quiz__media-image',
+                    loading: 'lazy',
+                    alt: block.settings.alt_text
+                }}
+              {% else %}
+                {{
+                  'image'
+                  | placeholder_svg_tag: 'supplement-quiz__media-image supplement-quiz__media-image--placeholder'
+                }}
+              {% endif %}
+
+              {% if block.settings.link != blank %}
+                </a>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          {% for i in (1..4) %}
+            <div class="supplement-quiz__media-item">
+              {{ 'image' | placeholder_svg_tag: 'supplement-quiz__media-image supplement-quiz__media-image--placeholder' }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="supplement-quiz__content supplement-quiz__content--{{ section.settings.text_alignment_desktop }} supplement-quiz__content--mobile-{{ section.settings.text_alignment_mobile }}">
+        {% if section.settings.heading != blank %}
+          <h2 class="supplement-quiz__heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section_description != blank %}
+          <div class="supplement-quiz__description rte">{{ section_description }}</div>
+        {% endif %}
+
+        {% if section_button_label != blank %}
+          {% if section_button_link != blank %}
+            <a class="supplement-quiz__button" href="{{ section_button_link }}">
+              {{ section_button_label }}
+            </a>
+          {% else %}
+            <span class="supplement-quiz__button supplement-quiz__button--disabled">
+              {{ section_button_label }}
+            </span>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .supplement-quiz {
+    background: var(--sq-bg);
+    width: 100%;
+    padding-top: var(--sq-padding-top);
+    padding-bottom: var(--sq-padding-bottom);
+  }
+
+  .supplement-quiz__inner {
+    max-width: var(--sq-section-max-width);
+    margin: 0 auto;
+    padding-inline: clamp(16px, 2.8vw, 44px);
+  }
+
+  .supplement-quiz--page-width .supplement-quiz__inner {
+    max-width: 1240px;
+  }
+
+  .supplement-quiz__layout {
+    display: grid;
+    align-items: center;
+    gap: var(--sq-grid-gap);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .supplement-quiz--content-left .supplement-quiz__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .supplement-quiz--content-left .supplement-quiz__content {
+    order: 1;
+  }
+
+  .supplement-quiz--content-left .supplement-quiz__media {
+    order: 2;
+  }
+
+  .supplement-quiz__media {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sq-media-gap);
+  }
+
+  .supplement-quiz__media-item {
+    min-width: 0;
+  }
+
+  .supplement-quiz__media-link {
+    display: block;
+  }
+
+  .supplement-quiz__media-image {
+    width: 100%;
+    aspect-ratio: var(--sq-media-ratio);
+    min-height: var(--sq-media-min-height);
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--sq-radius);
+    display: block;
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  .supplement-quiz__content {
+    width: 100%;
+    max-width: var(--max-width);
+  }
+
+  .supplement-quiz__content--left {
+    text-align: left;
+    justify-self: start;
+  }
+
+  .supplement-quiz__content--center {
+    text-align: center;
+    justify-self: center;
+  }
+
+  .supplement-quiz__content--right {
+    text-align: right;
+    justify-self: end;
+  }
+
+  .supplement-quiz__heading {
+    margin: 0;
+    color: var(--sq-heading-color);
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-size: clamp(var(--sq-heading-size-mobile), 3.8vw, var(--sq-heading-size-desktop));
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .supplement-quiz__description {
+    margin-top: 14px;
+    color: var(--sq-text-color);
+    font-size: clamp(var(--sq-body-size-mobile), 1.65vw, var(--sq-body-size-desktop));
+    line-height: 1.6;
+  }
+
+  .supplement-quiz__description p {
+    margin: 0;
+  }
+
+  .supplement-quiz__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 26px;
+    padding: 12px 26px;
+    min-width: 126px;
+    border-radius: var(--sq-button-radius);
+    border: 0;
+    background: var(--sq-button-bg);
+    color: var(--sq-button-text);
+    text-decoration: none;
+    font-size: var(--sq-button-size);
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  }
+
+  .supplement-quiz__button:hover,
+  .supplement-quiz__button:focus-visible {
+    background: var(--sq-button-hover-bg);
+    color: var(--sq-button-hover-text);
+    transform: translateY(-1px);
+  }
+
+  .supplement-quiz__button--disabled {
+    pointer-events: none;
+    opacity: 0.75;
+  }
+
+  @media screen and (max-width: 989px) {
+    .supplement-quiz__layout {
+      gap: clamp(24px, 4.4vw, var(--sq-grid-gap));
+      grid-template-columns: 1fr;
+    }
+
+    .supplement-quiz__layout--mobile-media-first .supplement-quiz__media {
+      order: 1;
+    }
+
+    .supplement-quiz__layout--mobile-media-first .supplement-quiz__content {
+      order: 2;
+    }
+
+    .supplement-quiz__layout--mobile-content-first .supplement-quiz__content {
+      order: 1;
+    }
+
+    .supplement-quiz__layout--mobile-content-first .supplement-quiz__media {
+      order: 2;
+    }
+
+    .supplement-quiz__media {
+      grid-template-columns: repeat(var(--sq-mobile-media-columns), minmax(0, 1fr));
+    }
+
+    .supplement-quiz__content {
+      max-width: 100%;
+    }
+
+    .supplement-quiz__content--mobile-left {
+      text-align: left;
+      justify-self: start;
+    }
+
+    .supplement-quiz__content--mobile-center {
+      text-align: center;
+      justify-self: center;
+    }
+
+    .supplement-quiz__content--mobile-right {
+      text-align: right;
+      justify-self: end;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .supplement-quiz__button {
+      min-width: 118px;
+      padding: 11px 22px;
+    }
+
+    .supplement-quiz__media-image {
+      min-height: max(120px, var(--sq-media-min-height));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Supplement quiz collage",
+  "tag": "section",
+  "class": "section-supplement-quiz-collage",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Take the Guesswork Out of Supplements"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Answer a few quick questions and get tailored supplement recommendations based on your goals and lifestyle.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Take Quiz"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full width"
+        },
+        {
+          "value": "page-width",
+          "label": "Page width"
+        }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max content width",
+      "min": 900,
+      "max": 1680,
+      "step": 20,
+      "unit": "px",
+      "default": 1360
+    },
+    {
+      "type": "select",
+      "id": "content_position_desktop",
+      "label": "Desktop content position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "select",
+      "id": "mobile_order",
+      "label": "Mobile order",
+      "options": [
+        {
+          "value": "media-first",
+          "label": "Images first"
+        },
+        {
+          "value": "content-first",
+          "label": "Content first"
+        }
+      ],
+      "default": "media-first"
+    },
+    {
+      "type": "range",
+      "id": "layout_gap",
+      "label": "Desktop columns gap",
+      "min": 12,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "default": 54
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 280,
+      "max": 780,
+      "step": 10,
+      "unit": "px",
+      "default": 520
+    },
+    {
+      "type": "select",
+      "id": "text_alignment_desktop",
+      "label": "Desktop text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment_mobile",
+      "label": "Mobile text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait"
+        },
+        {
+          "value": "16 / 10",
+          "label": "Landscape"
+        }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "Image gap",
+      "min": 4,
+      "max": 34,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "image_corner_radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_min_height",
+      "label": "Image min height",
+      "min": 100,
+      "max": 360,
+      "step": 4,
+      "unit": "px",
+      "default": 160
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_columns",
+      "label": "Mobile image columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size desktop",
+      "min": 26,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 58
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size mobile",
+      "min": 20,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "body_size_desktop",
+      "label": "Body size desktop",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "body_size_mobile",
+      "label": "Body size mobile",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Button text size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ececef"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Description",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#d72652"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#b61e45"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Button hover text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 220,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 220,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text",
+          "default": "Quiz image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Image link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_tab",
+          "label": "Open link in new tab",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Supplement quiz collage",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
