@@ -87,6 +87,107 @@
         "padding-block-end": 48
       }
     },
+    "hero_slider_custom_TDLVCC": {
+      "type": "hero-slider-custom",
+      "blocks": {
+        "slide_ry4ggp": {
+          "type": "slide",
+          "settings": {
+            "show_content": true,
+            "heading": "Supplements You Can Trust",
+            "subheading": "<p>IMPROVING THE QUALITY OF LIFE FOR OVER A QUARTER OF CENTURY</p>",
+            "button_text": "Shop Best Sellers",
+            "button_link": "",
+            "content_alignment": "left",
+            "content_position": "middle-left",
+            "content_width_mode": "full",
+            "media_type": "image",
+            "image": "shopify://shop_images/Products.png",
+            "media_view_mode": "frame",
+            "media_position": "right",
+            "use_custom_video_settings": false,
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "show_play_pause_button": false,
+            "show_media_only": false,
+            "content_over_media": false,
+            "overlay_alignment": "left"
+          }
+        },
+        "slide_A6Cprg": {
+          "type": "slide",
+          "settings": {
+            "show_content": true,
+            "heading": "Supplements You Can Trust",
+            "subheading": "<p>IMPROVING THE QUALITY OF LIFE FOR OVER A QUARTER OF CENTURY</p>",
+            "button_text": "Shop Best Sellers",
+            "button_link": "",
+            "content_alignment": "center",
+            "content_position": "middle-center",
+            "content_width_mode": "full",
+            "media_type": "image",
+            "image": "shopify://shop_images/Products.png",
+            "media_view_mode": "frame",
+            "media_position": "left",
+            "use_custom_video_settings": false,
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "show_play_pause_button": false,
+            "show_media_only": false,
+            "content_over_media": false,
+            "overlay_alignment": "right"
+          }
+        },
+        "slide_zdxTtA": {
+          "type": "slide",
+          "settings": {
+            "show_content": true,
+            "heading": "Supplements You Can Trust",
+            "subheading": "<p>IMPROVING THE QUALITY OF LIFE FOR OVER A QUARTER OF CENTURY</p>",
+            "button_text": "Shop Best Sellers",
+            "button_link": "",
+            "content_alignment": "center",
+            "content_position": "middle-center",
+            "content_width_mode": "full",
+            "media_type": "video",
+            "video": "shopify://files/videos/297dabbd8d774c82925125667fadee5f.HD-1080p-7.2Mbps-33126795.mp4",
+            "media_view_mode": "fullscreen",
+            "media_position": "right",
+            "use_custom_video_settings": false,
+            "video_autoplay": true,
+            "video_loop": true,
+            "video_muted": true,
+            "video_controls": false,
+            "show_play_pause_button": false,
+            "show_media_only": true,
+            "content_over_media": true,
+            "overlay_alignment": "left"
+          }
+        }
+      },
+      "block_order": [
+        "slide_ry4ggp",
+        "slide_A6Cprg",
+        "slide_zdxTtA"
+      ],
+      "name": "Hero slider custom",
+      "settings": {
+        "background_color": "#f7c9d4",
+        "heading_color": "#0b0b0b",
+        "text_color": "#1e2a39",
+        "button_color": "#d71e47",
+        "button_text_color": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "autoplay": true,
+        "autoplay_delay": 4,
+        "slider_speed": 550
+      }
+    },
     "product_list_qU3bEB": {
       "type": "product-list",
       "blocks": {
@@ -2687,7 +2788,9 @@
             "alt_text_1": "Supplement bottle 1",
             "alt_text_2": "Supplement bottle 2",
             "alt_text_3": "Supplement bottle 3",
-            "alt_text_4": "Supplement bottle 4"
+            "alt_text_4": "Supplement bottle 4",
+            "images_horizontal_position": "flex-end",
+            "images_vertical_position": "flex-end"
           }
         }
       },
@@ -2744,6 +2847,7 @@
         "media_max_width": 980,
         "image_overlap": 130,
         "media_bottom_shift": 18,
+        "figma_exact_mode": true,
         "media_alignment": "flex-end",
         "show_navigation": true,
         "show_pagination": false,
@@ -2759,6 +2863,7 @@
   },
   "order": [
     "hero_jVaWmY",
+    "hero_slider_custom_TDLVCC",
     "product_list_qU3bEB",
     "slideshow_FfDbKf",
     "section_HR94mk",
