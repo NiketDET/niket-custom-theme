@@ -1,0 +1,683 @@
+<section
+  id="CaliforniaCityLocator-{{ section.id }}"
+  class="california-city-locator"
+  style="
+    --ccl-bg: {{ section.settings.background_color }};
+    --ccl-card-bg: {{ section.settings.card_background }};
+    --ccl-text: {{ section.settings.text_color }};
+    --ccl-muted: {{ section.settings.muted_text_color }};
+    --ccl-accent: {{ section.settings.accent_color }};
+    --ccl-accent-soft: {{ section.settings.accent_soft_color }};
+    --ccl-map-fill: {{ section.settings.map_inactive_color }};
+    --ccl-map-hover: {{ section.settings.map_hover_color }};
+    --ccl-map-active: {{ section.settings.map_active_color }};
+    --ccl-border: {{ section.settings.border_color }};
+    --ccl-padding-top: {{ section.settings.padding_top }}px;
+    --ccl-padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="california-city-locator__shell">
+    <div class="california-city-locator__header">
+      {% if section.settings.eyebrow != blank %}
+        <p class="california-city-locator__eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="california-city-locator__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <div class="california-city-locator__intro rte">{{ section.settings.description }}</div>
+      {% endif %}
+    </div>
+
+    <div class="california-city-locator__grid">
+      <div class="california-city-locator__map-card">
+        <div class="california-city-locator__map-frame">
+          <div
+            class="california-city-locator__map-shell"
+            data-us-map
+            role="img"
+            aria-labelledby="CaliforniaCityLocatorTitle-{{ section.id }} CaliforniaCityLocatorDesc-{{ section.id }}"
+          >
+            <span class="visually-hidden" id="CaliforniaCityLocatorTitle-{{ section.id }}">Interactive map of the United States</span>
+            <span class="visually-hidden" id="CaliforniaCityLocatorDesc-{{ section.id }}">
+              The visitor's detected state is highlighted on the U.S. map. You can also click a state to preview it manually.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="california-city-locator__panel" aria-live="polite">
+        <p class="california-city-locator__status" data-locator-status>Loading U.S. map...</p>
+        <h3 class="california-city-locator__city-name" data-state-name>California</h3>
+        <p class="california-city-locator__city-description" data-state-description>
+          West Coast state highlighted on the U.S. map.
+        </p>
+        <p class="california-city-locator__city-details" data-state-details>
+          We use your approximate IP-based location to detect the active state. Click any state on the map to preview it manually.
+        </p>
+
+        <dl class="california-city-locator__meta">
+          <div>
+            <dt>State code</dt>
+            <dd data-state-code>CA</dd>
+          </div>
+          <div>
+            <dt>Selection source</dt>
+            <dd data-state-source>Preparing location lookup</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  #CaliforniaCityLocator-{{ section.id }}.california-city-locator {
+    padding-top: var(--ccl-padding-top);
+    padding-bottom: var(--ccl-padding-bottom);
+    background: var(--ccl-bg);
+    color: var(--ccl-text);
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__shell {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 clamp(18px, 4vw, 48px);
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__header {
+    max-width: 760px;
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__eyebrow {
+    margin: 0 0 10px;
+    color: var(--ccl-accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__heading {
+    margin: 0;
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-size: clamp(2rem, 4.4vw, 4.5rem);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__intro {
+    margin-top: 14px;
+    color: var(--ccl-muted);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.65;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__intro p {
+    margin: 0;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+    gap: clamp(20px, 3vw, 34px);
+    align-items: stretch;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__map-card,
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__panel {
+    background: var(--ccl-card-bg);
+    border: 1px solid var(--ccl-border);
+    border-radius: 28px;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__map-card {
+    padding: clamp(18px, 2.4vw, 28px);
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__map-frame {
+    min-height: 100%;
+    border-radius: 20px;
+    background: #ededed;
+    padding: clamp(10px, 1.4vw, 18px);
+    overflow: hidden;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__map-shell {
+    width: 100%;
+    min-height: 430px;
+    position: relative;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__map-shell svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__nation {
+    fill: transparent;
+    stroke: rgba(255, 255, 255, 0.75);
+    stroke-width: 1;
+    pointer-events: none;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__state {
+    fill: var(--ccl-map-fill);
+    stroke: #ffffff;
+    stroke-width: 1;
+    cursor: pointer;
+    transition: fill 0.2s ease, filter 0.2s ease;
+    outline: none;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__state:hover,
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__state:focus-visible {
+    fill: var(--ccl-map-hover);
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__state.is-active {
+    fill: var(--ccl-map-active);
+    filter: drop-shadow(0 0 0.35rem rgba(7, 55, 31, 0.24));
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__panel {
+    padding: clamp(22px, 3vw, 34px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__status {
+    margin: 0 0 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--ccl-accent-soft);
+    color: var(--ccl-accent);
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__city-name {
+    margin: 0;
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__city-description {
+    margin: 16px 0 0;
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__city-details {
+    margin: 12px 0 0;
+    color: var(--ccl-muted);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__meta {
+    margin: 26px 0 0;
+    display: grid;
+    gap: 14px;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__meta div {
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid var(--ccl-border);
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__meta dt {
+    margin: 0 0 4px;
+    color: var(--ccl-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  #CaliforniaCityLocator-{{ section.id }} .california-city-locator__meta dd {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 989px) {
+    #CaliforniaCityLocator-{{ section.id }} .california-city-locator__grid {
+      grid-template-columns: 1fr;
+    }
+
+    #CaliforniaCityLocator-{{ section.id }} .california-city-locator__map-shell {
+      min-height: 320px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #CaliforniaCityLocator-{{ section.id }} .california-city-locator__shell {
+      padding-inline: 16px;
+    }
+
+    #CaliforniaCityLocator-{{ section.id }} .california-city-locator__map-card,
+    #CaliforniaCityLocator-{{ section.id }} .california-city-locator__panel {
+      border-radius: 22px;
+    }
+
+    #CaliforniaCityLocator-{{ section.id }} .california-city-locator__map-shell {
+      min-height: 240px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    var root = document.getElementById('CaliforniaCityLocator-{{ section.id }}');
+    if (!root || root.dataset.locatorInitialized === 'true') return;
+
+    var mapTarget = root.querySelector('[data-us-map]');
+    var statusTarget = root.querySelector('[data-locator-status]');
+    var stateNameTarget = root.querySelector('[data-state-name]');
+    var stateDescriptionTarget = root.querySelector('[data-state-description]');
+    var stateDetailsTarget = root.querySelector('[data-state-details]');
+    var stateCodeTarget = root.querySelector('[data-state-code]');
+    var stateSourceTarget = root.querySelector('[data-state-source]');
+    var activeStateCode = '';
+
+    var stateMeta = {
+      AL: { name: 'Alabama', fips: '01' },
+      AK: { name: 'Alaska', fips: '02' },
+      AZ: { name: 'Arizona', fips: '04' },
+      AR: { name: 'Arkansas', fips: '05' },
+      CA: { name: 'California', fips: '06' },
+      CO: { name: 'Colorado', fips: '08' },
+      CT: { name: 'Connecticut', fips: '09' },
+      DE: { name: 'Delaware', fips: '10' },
+      DC: { name: 'District of Columbia', fips: '11' },
+      FL: { name: 'Florida', fips: '12' },
+      GA: { name: 'Georgia', fips: '13' },
+      HI: { name: 'Hawaii', fips: '15' },
+      ID: { name: 'Idaho', fips: '16' },
+      IL: { name: 'Illinois', fips: '17' },
+      IN: { name: 'Indiana', fips: '18' },
+      IA: { name: 'Iowa', fips: '19' },
+      KS: { name: 'Kansas', fips: '20' },
+      KY: { name: 'Kentucky', fips: '21' },
+      LA: { name: 'Louisiana', fips: '22' },
+      ME: { name: 'Maine', fips: '23' },
+      MD: { name: 'Maryland', fips: '24' },
+      MA: { name: 'Massachusetts', fips: '25' },
+      MI: { name: 'Michigan', fips: '26' },
+      MN: { name: 'Minnesota', fips: '27' },
+      MS: { name: 'Mississippi', fips: '28' },
+      MO: { name: 'Missouri', fips: '29' },
+      MT: { name: 'Montana', fips: '30' },
+      NE: { name: 'Nebraska', fips: '31' },
+      NV: { name: 'Nevada', fips: '32' },
+      NH: { name: 'New Hampshire', fips: '33' },
+      NJ: { name: 'New Jersey', fips: '34' },
+      NM: { name: 'New Mexico', fips: '35' },
+      NY: { name: 'New York', fips: '36' },
+      NC: { name: 'North Carolina', fips: '37' },
+      ND: { name: 'North Dakota', fips: '38' },
+      OH: { name: 'Ohio', fips: '39' },
+      OK: { name: 'Oklahoma', fips: '40' },
+      OR: { name: 'Oregon', fips: '41' },
+      PA: { name: 'Pennsylvania', fips: '42' },
+      RI: { name: 'Rhode Island', fips: '44' },
+      SC: { name: 'South Carolina', fips: '45' },
+      SD: { name: 'South Dakota', fips: '46' },
+      TN: { name: 'Tennessee', fips: '47' },
+      TX: { name: 'Texas', fips: '48' },
+      UT: { name: 'Utah', fips: '49' },
+      VT: { name: 'Vermont', fips: '50' },
+      VA: { name: 'Virginia', fips: '51' },
+      WA: { name: 'Washington', fips: '53' },
+      WV: { name: 'West Virginia', fips: '54' },
+      WI: { name: 'Wisconsin', fips: '55' },
+      WY: { name: 'Wyoming', fips: '56' }
+    };
+
+    var stateCodeByName = {};
+    var stateByFips = {};
+
+    Object.keys(stateMeta).forEach(function(code) {
+      var state = stateMeta[code];
+      stateCodeByName[normalizeStateName(code)] = code;
+      stateCodeByName[normalizeStateName(state.name)] = code;
+      stateByFips[state.fips] = { code: code, name: state.name };
+    });
+
+    function normalizeStateName(value) {
+      return String(value || '')
+        .toUpperCase()
+        .replace(/[^A-Z]/g, '');
+    }
+
+    function setStatus(message) {
+      if (statusTarget) statusTarget.textContent = message;
+    }
+
+    function loadScript(src, globalName) {
+      if (globalName && window[globalName]) return Promise.resolve(window[globalName]);
+
+      var key = '__cclScript_' + src;
+      if (window[key]) return window[key];
+
+      window[key] = new Promise(function(resolve, reject) {
+        var existing = document.querySelector('script[data-ccl-src="' + src + '"]');
+        if (existing) {
+          existing.addEventListener('load', function() {
+            resolve(globalName ? window[globalName] : true);
+          });
+          existing.addEventListener('error', reject);
+          return;
+        }
+
+        var script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.dataset.cclSrc = src;
+        script.onload = function() {
+          resolve(globalName ? window[globalName] : true);
+        };
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+
+      return window[key];
+    }
+
+    function ensureDependencies() {
+      return loadScript('https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js', 'd3').then(function() {
+        return loadScript('https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js', 'topojson');
+      });
+    }
+
+    function resolveStateCode(input) {
+      return stateCodeByName[normalizeStateName(input)] || '';
+    }
+
+    function updateActiveMapState(stateCode) {
+      if (!mapTarget) return;
+
+      var stateNodes = mapTarget.querySelectorAll('[data-state-code]');
+      stateNodes.forEach(function(node) {
+        var isActive = node.getAttribute('data-state-code') === stateCode;
+        node.classList.toggle('is-active', isActive);
+        node.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+    }
+
+    function renderState(stateCode, sourceLabel, statusMessage) {
+      var state = stateMeta[stateCode];
+      if (!state) return;
+
+      activeStateCode = stateCode;
+      updateActiveMapState(stateCode);
+
+      if (stateNameTarget) stateNameTarget.textContent = state.name;
+      if (stateDescriptionTarget) stateDescriptionTarget.textContent = state.name + ' is currently highlighted on the U.S. map.';
+      if (stateDetailsTarget) {
+        stateDetailsTarget.textContent =
+          sourceLabel === 'Manual selection'
+            ? 'You manually selected this state from the map. Automatic visitor-state detection remains available on reload.'
+            : 'This state was selected using your approximate location from ipapi.co. If that lookup is blocked, the section falls back to California.';
+      }
+      if (stateCodeTarget) stateCodeTarget.textContent = stateCode;
+      if (stateSourceTarget) stateSourceTarget.textContent = sourceLabel;
+      if (statusMessage) setStatus(statusMessage);
+    }
+
+    function handleManualSelection(stateCode) {
+      if (!stateMeta[stateCode]) return;
+      renderState(stateCode, 'Manual selection', 'Showing ' + stateMeta[stateCode].name + ' from map selection.');
+    }
+
+    function renderMap(geometry) {
+      if (!window.d3 || !window.topojson || !mapTarget) return;
+
+      var d3 = window.d3;
+      var topojson = window.topojson;
+      var width = 960;
+      var height = 600;
+      var statesObject = geometry && geometry.objects ? geometry.objects.states : null;
+
+      if (!statesObject) {
+        throw new Error('State geometry missing');
+      }
+
+      var featureCollection = topojson.feature(geometry, statesObject);
+      var projection = d3.geoAlbersUsa().fitSize([width, height], featureCollection);
+      var path = d3.geoPath(projection);
+      var borders = topojson.mesh(geometry, statesObject, function(a, b) {
+        return a !== b;
+      });
+
+      mapTarget.innerHTML = '';
+
+      var svg = d3
+        .select(mapTarget)
+        .append('svg')
+        .attr('viewBox', '0 0 ' + width + ' ' + height)
+        .attr('preserveAspectRatio', 'xMidYMid meet');
+
+      svg
+        .append('path')
+        .datum(borders)
+        .attr('class', 'california-city-locator__nation')
+        .attr('d', path);
+
+      svg
+        .append('g')
+        .selectAll('path')
+        .data(featureCollection.features)
+        .enter()
+        .append('path')
+        .attr('class', 'california-city-locator__state')
+        .attr('data-state-code', function(feature) {
+          var state = stateByFips[String(feature.id).padStart(2, '0')];
+          return state ? state.code : '';
+        })
+        .attr('data-state-name', function(feature) {
+          var state = stateByFips[String(feature.id).padStart(2, '0')];
+          return state ? state.name : '';
+        })
+        .attr('d', path)
+        .attr('tabindex', 0)
+        .attr('role', 'button')
+        .attr('aria-pressed', 'false')
+        .attr('aria-label', function(feature) {
+          var state = stateByFips[String(feature.id).padStart(2, '0')];
+          return state ? 'Select ' + state.name : 'Select state';
+        })
+        .on('click', function(event, feature) {
+          var state = stateByFips[String(feature.id).padStart(2, '0')];
+          if (state) handleManualSelection(state.code);
+        })
+        .on('keydown', function(event, feature) {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          var state = stateByFips[String(feature.id).padStart(2, '0')];
+          if (state) handleManualSelection(state.code);
+        });
+
+      updateActiveMapState(activeStateCode);
+    }
+
+    function detectUserState() {
+      return fetch('https://ipapi.co/json/')
+        .then(function(response) {
+          if (!response.ok) throw new Error('ipapi request failed');
+          return response.json();
+        })
+        .then(function(data) {
+          return resolveStateCode(data.region_code || data.region);
+        });
+    }
+
+    function initialize() {
+      renderState('CA', 'Preparing location lookup', 'Loading U.S. map...');
+
+      ensureDependencies()
+        .then(function() {
+          return fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+        })
+        .then(function(response) {
+          if (!response.ok) throw new Error('Map request failed');
+          return response.json();
+        })
+        .then(function(geometry) {
+          renderMap(geometry);
+          setStatus('Detecting your state...');
+          return detectUserState();
+        })
+        .then(function(stateCode) {
+          if (!stateCode || !stateMeta[stateCode]) {
+            renderState('CA', 'Default fallback', 'Location unavailable. Showing California.');
+            return;
+          }
+
+          renderState(stateCode, 'IP-based detection', 'Detected your approximate state from IP lookup.');
+        })
+        .catch(function() {
+          renderState('CA', 'Default fallback', 'Map or location lookup failed. Showing California.');
+        });
+    }
+
+    initialize();
+    root.dataset.locatorInitialized = 'true';
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "USA state locator",
+  "tag": "section",
+  "class": "section-california-city-locator",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "USA locator"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find the visitor's state"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>An interactive U.S. map that highlights the visitor's detected state and lets you preview any state manually.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#102228"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5b6660"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0f5f34"
+    },
+    {
+      "type": "color",
+      "id": "accent_soft_color",
+      "label": "Soft accent color",
+      "default": "#d9e9df"
+    },
+    {
+      "type": "color",
+      "id": "map_inactive_color",
+      "label": "Map inactive color",
+      "default": "#cfcfcf"
+    },
+    {
+      "type": "color",
+      "id": "map_hover_color",
+      "label": "Map hover color",
+      "default": "#b8c8be"
+    },
+    {
+      "type": "color",
+      "id": "map_active_color",
+      "label": "Map active color",
+      "default": "#0f5f34"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#d5d5d5"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "USA state locator",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -184,8 +184,296 @@
         "padding_top": 56,
         "padding_bottom": 56,
         "autoplay": true,
+        "show_navigation": true,
+        "show_pagination": true,
+        "enable_drag": true,
+        "loop": true,
         "autoplay_delay": 4,
         "slider_speed": 550
+      }
+    },
+    "quality_commitment_badges_4kLPMR": {
+      "type": "quality-commitment-badges",
+      "blocks": {
+        "badge_cDm8UC": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/Trusted_Since_1995_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_WKFizG": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/Made_in_USA_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_dtp4DJ": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/GMP_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_F6fD6j": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/PDP.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_cr6Xe8": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/Scientifically_Researched_Key_Ingredients_White_1_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_QmfJND": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/NON_GMO_1_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_mnDad7": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/new_logo_2_upscayl_4x_realesrgan-x4plus_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_FneMLG": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/30day_guarantee_png_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "badge_XXqGMN": {
+          "type": "badge",
+          "settings": {
+            "logo": "shopify://shop_images/100_Satisfaction_Guarantee_1.png",
+            "alt_text": "Quality badge",
+            "link": "",
+            "open_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "badge_cDm8UC",
+        "badge_WKFizG",
+        "badge_dtp4DJ",
+        "badge_F6fD6j",
+        "badge_cr6Xe8",
+        "badge_QmfJND",
+        "badge_mnDad7",
+        "badge_FneMLG",
+        "badge_XXqGMN"
+      ],
+      "name": "Quality commitment badges",
+      "settings": {
+        "heading": "Our Commitment to Quality",
+        "heading_size_desktop": 58,
+        "heading_size_mobile": 34,
+        "heading_weight": "600",
+        "background_color": "#ececef",
+        "heading_color": "#000000",
+        "section_width": "full-width",
+        "logo_height": 98,
+        "desktop_columns": 8,
+        "heading_gap": 46,
+        "logo_gap_column": 28,
+        "logo_gap_row": 24,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "supplement_quiz_collage_fy3itN": {
+      "type": "supplement-quiz-collage",
+      "blocks": {
+        "image_tiHyYc": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_6.png",
+            "alt_text": "Quiz image",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "image_tLbbCg": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_5.png",
+            "alt_text": "Quiz image",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "image_mi9Kiw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_5_1.png",
+            "alt_text": "Quiz image",
+            "link": "",
+            "open_new_tab": false
+          }
+        },
+        "image_nFp8Cz": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_6_1.png",
+            "alt_text": "Quiz image",
+            "link": "",
+            "open_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "image_tiHyYc",
+        "image_tLbbCg",
+        "image_mi9Kiw",
+        "image_nFp8Cz"
+      ],
+      "name": "Supplement quiz collage",
+      "settings": {
+        "heading": "Take the Guesswork Out of Supplements",
+        "description": "<p>Answer a few quick questions and get tailored supplement recommendations based on your goals and lifestyle.</p>",
+        "button_label": "Take Quiz",
+        "button_link": "",
+        "section_width": "full-width",
+        "max_width": 1360,
+        "content_position_desktop": "right",
+        "mobile_order": "media-first",
+        "layout_gap": 54,
+        "content_max_width": 520,
+        "text_alignment_desktop": "center",
+        "text_alignment_mobile": "center",
+        "image_ratio": "1 / 1",
+        "image_gap": 14,
+        "image_corner_radius": 0,
+        "image_min_height": 160,
+        "mobile_image_columns": "2",
+        "heading_size_desktop": 58,
+        "heading_size_mobile": 38,
+        "body_size_desktop": 20,
+        "body_size_mobile": 16,
+        "button_size": 14,
+        "background_color": "#ececef",
+        "heading_color": "#111111",
+        "text_color": "#222222",
+        "button_background": "#d72652",
+        "button_text_color": "#ffffff",
+        "button_hover_background": "#b61e45",
+        "button_hover_text_color": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "button_radius": 30
+      }
+    },
+    "supplement_hero_slider_Adz6jK": {
+      "type": "supplement-hero-slider",
+      "blocks": {
+        "slide_w6Nczd": {
+          "type": "slide",
+          "settings": {
+            "heading": "Supplements You Can Trust",
+            "subheading": "IMPROVING THE QUALITY OF LIFE FOR OVER A QUARTER OF CENTURY",
+            "description": "",
+            "button_label": "Shop Best Sellers",
+            "button_link": "",
+            "image_1": "shopify://shop_images/Products.png",
+            "alt_text_1": "Supplement bottle 1",
+            "alt_text_2": "Supplement bottle 2",
+            "alt_text_3": "Supplement bottle 3",
+            "alt_text_4": "Supplement bottle 4",
+            "images_horizontal_position": "flex-end",
+            "images_vertical_position": "flex-end"
+          }
+        }
+      },
+      "block_order": [
+        "slide_w6Nczd"
+      ],
+      "disabled": true,
+      "name": "Supplement hero slider",
+      "settings": {
+        "enable_slider": true,
+        "mobile_order": "content-first",
+        "text_alignment": "left",
+        "max_width": 400,
+        "section_height_desktop": 820,
+        "section_height_mobile": 540,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_inline": 56,
+        "columns_gap": 20,
+        "content_column": 5,
+        "media_column": 7,
+        "content_max_width": 640,
+        "background_top": "#ffc8d5",
+        "background_bottom": "#fae3e9",
+        "background_split": 70,
+        "heading_size_desktop": 75,
+        "heading_size_mobile": 46,
+        "heading_weight": 700,
+        "heading_line_height": 1,
+        "subheading_size_desktop": 25,
+        "subheading_size_mobile": 22,
+        "subheading_weight": 700,
+        "subheading_line_height": 1.2,
+        "subheading_spacing_top": 15,
+        "body_size_desktop": 16,
+        "body_size_mobile": 14,
+        "body_weight": 500,
+        "body_line_height": 1.4,
+        "heading_color": "#090909",
+        "subheading_color": "#001a38",
+        "text_color": "#1f2a37",
+        "button_spacing_top": 30,
+        "button_text_size": 18,
+        "button_font_weight": 700,
+        "button_padding_vertical": 8,
+        "button_padding_horizontal": 32,
+        "button_min_width": 200,
+        "button_radius": 40,
+        "button_background": "#d71e47",
+        "button_text_color": "#ffffff",
+        "button_border_color": "#d71e47",
+        "button_hover_background": "#bf163b",
+        "button_hover_text_color": "#ffffff",
+        "button_hover_border_color": "#bf163b",
+        "media_max_width": 980,
+        "image_overlap": 130,
+        "media_bottom_shift": 18,
+        "figma_exact_mode": true,
+        "media_alignment": "flex-end",
+        "show_navigation": true,
+        "show_pagination": false,
+        "loop": true,
+        "autoplay": false,
+        "autoplay_delay": 3500,
+        "slider_speed": 600,
+        "nav_size": 40,
+        "nav_color": "#d71e47",
+        "nav_background": "#ffffff"
       }
     },
     "product_list_qU3bEB": {
@@ -420,6 +708,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "Product list",
       "settings": {
         "collection": "all",
@@ -724,6 +1013,7 @@
         "slide_88yq3M",
         "slide_ztxUiL"
       ],
+      "disabled": true,
       "name": "t:names.slideshow",
       "settings": {
         "icons_style": "arrows_large",
@@ -854,6 +1144,7 @@
         "video_EVjgk8",
         "group_RihpWx"
       ],
+      "disabled": true,
       "name": "t:names.video_section",
       "settings": {
         "content_direction": "column",
@@ -2405,6 +2696,7 @@
       "block_order": [
         "ai_gen_block_a2e669b_dUh8G8"
       ],
+      "disabled": true,
       "name": "t:names.custom_section",
       "settings": {
         "content_direction": "column",
@@ -2548,6 +2840,7 @@
       "block_order": [
         "ai_gen_block_0032860_EWphYE"
       ],
+      "disabled": true,
       "name": "t:names.custom_section",
       "settings": {
         "content_direction": "column",
@@ -2577,296 +2870,38 @@
         "padding-block-end": 0
       }
     },
-    "quality_commitment_badges_4kLPMR": {
-      "type": "quality-commitment-badges",
-      "blocks": {
-        "badge_cDm8UC": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/Trusted_Since_1995_1.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "badge_WKFizG": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/Made_in_USA_1.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "badge_dtp4DJ": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/GMP_1.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "badge_F6fD6j": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/PDP.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "badge_cr6Xe8": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/Scientifically_Researched_Key_Ingredients_White_1_1.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "badge_QmfJND": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/NON_GMO_1_1.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "badge_mnDad7": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/new_logo_2_upscayl_4x_realesrgan-x4plus_1.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "badge_FneMLG": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/30day_guarantee_png_1.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "badge_XXqGMN": {
-          "type": "badge",
-          "settings": {
-            "logo": "shopify://shop_images/100_Satisfaction_Guarantee_1.png",
-            "alt_text": "Quality badge",
-            "link": "",
-            "open_new_tab": false
-          }
-        }
-      },
-      "block_order": [
-        "badge_cDm8UC",
-        "badge_WKFizG",
-        "badge_dtp4DJ",
-        "badge_F6fD6j",
-        "badge_cr6Xe8",
-        "badge_QmfJND",
-        "badge_mnDad7",
-        "badge_FneMLG",
-        "badge_XXqGMN"
-      ],
-      "name": "Quality commitment badges",
+    "california_city_locator_nHecYq": {
+      "type": "california-city-locator",
+      "name": "California city locator",
       "settings": {
-        "heading": "Our Commitment to Quality",
-        "heading_size_desktop": 58,
-        "heading_size_mobile": 34,
-        "heading_weight": "600",
-        "background_color": "#ececef",
-        "heading_color": "#000000",
-        "section_width": "full-width",
-        "logo_height": 98,
-        "desktop_columns": 8,
-        "heading_gap": 46,
-        "logo_gap_column": 28,
-        "logo_gap_row": 24,
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "supplement_quiz_collage_fy3itN": {
-      "type": "supplement-quiz-collage",
-      "blocks": {
-        "image_tiHyYc": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_6.png",
-            "alt_text": "Quiz image",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "image_tLbbCg": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_5.png",
-            "alt_text": "Quiz image",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "image_mi9Kiw": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_5_1.png",
-            "alt_text": "Quiz image",
-            "link": "",
-            "open_new_tab": false
-          }
-        },
-        "image_nFp8Cz": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_6_1.png",
-            "alt_text": "Quiz image",
-            "link": "",
-            "open_new_tab": false
-          }
-        }
-      },
-      "block_order": [
-        "image_tiHyYc",
-        "image_tLbbCg",
-        "image_mi9Kiw",
-        "image_nFp8Cz"
-      ],
-      "name": "Supplement quiz collage",
-      "settings": {
-        "heading": "Take the Guesswork Out of Supplements",
-        "description": "<p>Answer a few quick questions and get tailored supplement recommendations based on your goals and lifestyle.</p>",
-        "button_label": "Take Quiz",
-        "button_link": "",
-        "section_width": "full-width",
-        "max_width": 1360,
-        "content_position_desktop": "right",
-        "mobile_order": "media-first",
-        "layout_gap": 54,
-        "content_max_width": 520,
-        "text_alignment_desktop": "center",
-        "text_alignment_mobile": "center",
-        "image_ratio": "1 / 1",
-        "image_gap": 14,
-        "image_corner_radius": 0,
-        "image_min_height": 160,
-        "mobile_image_columns": "2",
-        "heading_size_desktop": 58,
-        "heading_size_mobile": 38,
-        "body_size_desktop": 20,
-        "body_size_mobile": 16,
-        "button_size": 14,
-        "background_color": "#ececef",
-        "heading_color": "#111111",
-        "text_color": "#222222",
-        "button_background": "#d72652",
-        "button_text_color": "#ffffff",
-        "button_hover_background": "#b61e45",
-        "button_hover_text_color": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "button_radius": 30
-      }
-    },
-    "supplement_hero_slider_Adz6jK": {
-      "type": "supplement-hero-slider",
-      "blocks": {
-        "slide_w6Nczd": {
-          "type": "slide",
-          "settings": {
-            "heading": "Supplements You Can Trust",
-            "subheading": "IMPROVING THE QUALITY OF LIFE FOR OVER A QUARTER OF CENTURY",
-            "description": "",
-            "button_label": "Shop Best Sellers",
-            "button_link": "",
-            "image_1": "shopify://shop_images/Products.png",
-            "alt_text_1": "Supplement bottle 1",
-            "alt_text_2": "Supplement bottle 2",
-            "alt_text_3": "Supplement bottle 3",
-            "alt_text_4": "Supplement bottle 4",
-            "images_horizontal_position": "flex-end",
-            "images_vertical_position": "flex-end"
-          }
-        }
-      },
-      "block_order": [
-        "slide_w6Nczd"
-      ],
-      "name": "Supplement hero slider",
-      "settings": {
-        "enable_slider": true,
-        "mobile_order": "content-first",
-        "text_alignment": "left",
-        "max_width": 400,
-        "section_height_desktop": 820,
-        "section_height_mobile": 540,
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "padding_inline": 56,
-        "columns_gap": 20,
-        "content_column": 5,
-        "media_column": 7,
-        "content_max_width": 640,
-        "background_top": "#ffc8d5",
-        "background_bottom": "#fae3e9",
-        "background_split": 70,
-        "heading_size_desktop": 75,
-        "heading_size_mobile": 46,
-        "heading_weight": 700,
-        "heading_line_height": 1,
-        "subheading_size_desktop": 25,
-        "subheading_size_mobile": 22,
-        "subheading_weight": 700,
-        "subheading_line_height": 1.2,
-        "subheading_spacing_top": 15,
-        "body_size_desktop": 16,
-        "body_size_mobile": 14,
-        "body_weight": 500,
-        "body_line_height": 1.4,
-        "heading_color": "#090909",
-        "subheading_color": "#001a38",
-        "text_color": "#1f2a37",
-        "button_spacing_top": 30,
-        "button_text_size": 18,
-        "button_font_weight": 700,
-        "button_padding_vertical": 8,
-        "button_padding_horizontal": 32,
-        "button_min_width": 200,
-        "button_radius": 40,
-        "button_background": "#d71e47",
-        "button_text_color": "#ffffff",
-        "button_border_color": "#d71e47",
-        "button_hover_background": "#bf163b",
-        "button_hover_text_color": "#ffffff",
-        "button_hover_border_color": "#bf163b",
-        "media_max_width": 980,
-        "image_overlap": 130,
-        "media_bottom_shift": 18,
-        "figma_exact_mode": true,
-        "media_alignment": "flex-end",
-        "show_navigation": true,
-        "show_pagination": false,
-        "loop": true,
-        "autoplay": false,
-        "autoplay_delay": 3500,
-        "slider_speed": 600,
-        "nav_size": 40,
-        "nav_color": "#d71e47",
-        "nav_background": "#ffffff"
+        "eyebrow": "California locator",
+        "heading": "Find the nearest California city",
+        "description": "<p>An interactive California map that highlights major cities and automatically selects the closest supported location for the current visitor.</p>",
+        "background_color": "#edf5f3",
+        "card_background": "#f8fbfa",
+        "text_color": "#102228",
+        "muted_text_color": "#4e6770",
+        "accent_color": "#1f7a6f",
+        "accent_soft_color": "#dcefeb",
+        "map_inactive_color": "#d7dfde",
+        "map_hover_color": "#b8cec9",
+        "map_active_color": "#ff8f5c",
+        "border_color": "#c6d5d2",
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     }
   },
   "order": [
     "hero_jVaWmY",
     "hero_slider_custom_TDLVCC",
+    "quality_commitment_badges_4kLPMR",
+    "supplement_quiz_collage_fy3itN",
+    "supplement_hero_slider_Adz6jK",
     "product_list_qU3bEB",
     "slideshow_FfDbKf",
     "section_HR94mk",
+    "california_city_locator_nHecYq",
     "section_RM9ymh",
     "section_Tj7HPC",
     "collection_list_krXzMT",
@@ -2874,9 +2909,6 @@
     "section_bneFrK",
     "section_6epYL3",
     "section_jH6kdd",
-    "section_fDtRQT",
-    "quality_commitment_badges_4kLPMR",
-    "supplement_quiz_collage_fy3itN",
-    "supplement_hero_slider_Adz6jK"
+    "section_fDtRQT"
   ]
 }
