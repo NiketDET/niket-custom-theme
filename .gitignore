@@ -1,0 +1,16 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+
+# OS
+.DS_Store
+
+# Build output
+assets/application.css.liquid
+
+# Env
+.env

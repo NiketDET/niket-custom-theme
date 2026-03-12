@@ -1,0 +1,256 @@
+{% assign slider_enabled = false %}
+{% if section.blocks.size > 3 %}
+  {% assign slider_enabled = true %}
+{% endif %}
+
+<section class="bg-white" id="ReviewsSection-{{ section.id }}">
+  <div class="relative max-w-[1512px] mx-auto py-[100px] px-[80px] flex flex-col items-center gap-[55px] max-[749px]:py-[64px] max-[749px]:px-[24px] max-[749px]:gap-[40px]">
+    <div class="w-full max-w-[1000px] flex flex-col items-center gap-[10px] text-center">
+      <p class="text-[24px] font-bold leading-none text-[#d71e47] font-[var(--font-heading)] max-[749px]:text-[18px]">
+        {{ section.settings.eyebrow }}
+      </p>
+      <h2 class="text-[48px] font-bold leading-none text-black font-[var(--font-heading)] max-[749px]:text-[34px] max-[749px]:leading-[1.1]">
+        {{ section.settings.title }}
+      </h2>
+    </div>
+
+    <div class="w-full reviews-section__swiper{% if slider_enabled %} swiper{% endif %}">
+      <div class="{% if slider_enabled %}swiper-wrapper items-stretch{% else %}flex items-stretch gap-[40px]{% endif %}">
+        {% for block in section.blocks %}
+          <div class="{% if slider_enabled %}swiper-slide h-auto{% else %}flex-1 min-w-0{% endif %}" {{ block.shopify_attributes }}>
+            <div class="h-full bg-[#f4f4f4] border-2 border-[#4aa0ff] rounded-[10px]">
+              <div class="p-[40px] flex flex-col gap-[20px] max-[749px]:p-[28px]">
+                <div class="flex items-center gap-[15px]">
+                  <div class="flex items-center gap-[5px]">
+                    {% for i in (1..5) %}
+                      <img
+                        class="!w-[20px] !h-[20px] !max-w-[20px] !max-h-[20px] block shrink-0"
+                        src="{{ 'reviews-star.png' | asset_url }}"
+                        width="20"
+                        height="20"
+                        alt=""
+                        loading="lazy"
+                      >
+                    {% endfor %}
+                  </div>
+                  <p class="text-[18px] leading-[28px] text-[#777] font-[var(--font-body)]">
+                    {{ block.settings.review_count }}
+                  </p>
+                </div>
+
+                <div class="flex flex-col gap-[10px]">
+                  <h3 class="text-[24px] leading-[34px] font-bold text-[#124a88] font-[var(--font-body)]">
+                    {{ block.settings.title }}
+                  </h3>
+                  <p class="text-[18px] leading-[28px] text-[#001a38] font-[var(--font-body)]">
+                    {{ block.settings.text }}
+                  </p>
+                </div>
+
+                <div class="flex flex-col gap-[5px]">
+                  <p class="text-[18px] leading-[28px] font-bold text-[#001a38] font-[var(--font-body)]">
+                    {{ block.settings.name }}
+                  </p>
+                  <div class="flex items-center gap-[5px]">
+                    <img
+                      class="!w-[20px] !h-[20px] !max-w-[20px] !max-h-[20px] block shrink-0 object-contain"
+                      src="{{ 'reviews-verified.png' | asset_url }}"
+                      width="20"
+                      height="20"
+                      alt=""
+                      loading="lazy"
+                    >
+                    <p class="text-[14px] leading-[24px] font-bold text-[#d71e47] font-[var(--font-body)]">
+                      {{ block.settings.verified_text }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="absolute z-[99] left-1/2 top-[408px] -translate-x-1/2 w-[min(1390px,100%)] flex items-center justify-between max-[1200px]:static max-[1200px]:translate-x-0 max-[1200px]:w-full{% unless slider_enabled %} hidden{% endunless %}" aria-hidden="true">
+      <button class="w-[40px] h-[40px] rounded-[100px] border border-[#d71e47] bg-white flex items-center justify-center reviews-section__arrow--prev" type="button">
+        <img
+          class="!w-[20px] !h-[20px] !max-w-[20px] !max-h-[20px] block shrink-0"
+          src="{{ 'reviews-arrow-left.png' | asset_url }}"
+          width="20"
+          height="20"
+          alt=""
+          loading="lazy"
+        >
+      </button>
+      <button class="w-[40px] h-[40px] rounded-[100px] border border-[#d71e47] bg-white flex items-center justify-center reviews-section__arrow--next" type="button">
+        <img
+          class="!w-[20px] !h-[20px] !max-w-[20px] !max-h-[20px] block shrink-0"
+          src="{{ 'reviews-arrow-right.png' | asset_url }}"
+          width="20"
+          height="20"
+          alt=""
+          loading="lazy"
+        >
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var root = document.getElementById('ReviewsSection-{{ section.id }}');
+    if (!root || root.dataset.swiperInited === 'true') return;
+    if (!{{ slider_enabled | json }}) return;
+
+    function loadStyle(href, done) {
+      if (document.querySelector('link[data-reviews-swiper-css="true"]')) {
+        done();
+        return;
+      }
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.dataset.reviewsSwiperCss = 'true';
+      link.onload = done;
+      document.head.appendChild(link);
+    }
+
+    function loadScript(src, done) {
+      if (window.Swiper) {
+        done();
+        return;
+      }
+      var existing = document.querySelector('script[data-reviews-swiper-js="true"]');
+      if (existing) {
+        existing.addEventListener('load', done, { once: true });
+        return;
+      }
+      var script = document.createElement('script');
+      script.src = src;
+      script.async = true;
+      script.dataset.reviewsSwiperJs = 'true';
+      script.onload = done;
+      document.head.appendChild(script);
+    }
+
+    function init() {
+      if (!window.Swiper) return;
+      var el = root.querySelector('.reviews-section__swiper.swiper');
+      if (!el) return;
+
+      var config = {
+        slidesPerView: 3,
+        spaceBetween: 40,
+        speed: 450,
+        loop: {{ section.settings.loop | default: true | json }},
+        navigation: {
+          prevEl: root.querySelector('.reviews-section__arrow--prev'),
+          nextEl: root.querySelector('.reviews-section__arrow--next')
+        },
+        breakpoints: {
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 24
+          },
+          750: {
+            slidesPerView: 2,
+            spaceBetween: 32
+          },
+          1100: {
+            slidesPerView: 3,
+            spaceBetween: 40
+          }
+        }
+      };
+
+      new Swiper(el, config);
+      root.dataset.swiperInited = 'true';
+    }
+
+    loadStyle('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', function() {
+      loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', init);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "REVIEWS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What People Are Saying"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop slides",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "review_count",
+          "label": "Review count",
+          "default": "100 Reviews"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Lorem Ipsum"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Lorem ipsum dolor sit amet consectetur. Quis diam nunc eros vestibulum viverra eu. Tortor commodo in massa aliquet."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Customer Name Goes Here"
+        },
+        {
+          "type": "text",
+          "id": "verified_text",
+          "label": "Verified text",
+          "default": "Verified Buyer"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Reviews",
+      "blocks": [
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

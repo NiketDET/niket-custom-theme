@@ -1,0 +1,778 @@
+{% liquid
+  assign image_alt = section.settings.image.alt | default: section.settings.heading | escape
+  assign image_widths = '320, 480, 640, 800, 960, 1200, 1440'
+  assign image_sizes = '(min-width: 1440px) 720px, (min-width: 990px) 52vw, (min-width: 750px) 86vw, 92vw'
+  assign background_image = section.settings.background_image
+  assign background_image_url = ''
+  if background_image != blank
+    assign background_image_url = background_image | image_url: width: 2200
+  endif
+%}
+
+<section
+  class="signature-supplements signature-supplements--{{ section.id }} signature-supplements--image-{{ section.settings.image_position }}{% unless section.settings.show_side_image %} signature-supplements--hide-side-image{% endunless %}"
+  style="
+    --ssc-background: {{ section.settings.background_color }};
+    --ssc-background-overlay: {{ section.settings.background_overlay_color | color_modify: 'alpha', section.settings.background_overlay_opacity }};
+    --ssc-background-position: {{ section.settings.background_position }};
+    --ssc-background-size: {{ section.settings.background_size }};
+    --ssc-background-repeat: {{ section.settings.background_repeat }};
+    --ssc-background-image: url('{{ background_image_url }}');
+    --ssc-max-width: {{ section.settings.section_max_width }}px;
+    --ssc-min-height-desktop: {{ section.settings.section_height_desktop }}px;
+    --ssc-min-height-mobile: {{ section.settings.section_height_mobile }}px;
+    --ssc-padding-top: {{ section.settings.padding_top }}px;
+    --ssc-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --ssc-padding-inline: {{ section.settings.padding_inline }}px;
+    --ssc-column-gap: {{ section.settings.column_gap }}px;
+    --ssc-media-max-width: {{ section.settings.image_max_width }}px;
+    --ssc-content-max-width: {{ section.settings.content_max_width }}px;
+    --ssc-heading-color: {{ section.settings.heading_color }};
+    --ssc-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --ssc-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --ssc-heading-line-height: {{ section.settings.heading_line_height }};
+    --ssc-heading-weight: {{ section.settings.heading_weight }};
+    --ssc-button-bg: {{ section.settings.button_background }};
+    --ssc-button-color: {{ section.settings.button_text_color }};
+    --ssc-button-border: {{ section.settings.button_border_color }};
+    --ssc-button-hover-bg: {{ section.settings.button_hover_background }};
+    --ssc-button-hover-color: {{ section.settings.button_hover_text_color }};
+    --ssc-button-hover-border: {{ section.settings.button_hover_border_color }};
+    --ssc-button-size: {{ section.settings.button_size }}px;
+    --ssc-button-weight: {{ section.settings.button_weight }};
+    --ssc-button-radius: {{ section.settings.button_radius }}px;
+    --ssc-button-padding-y: {{ section.settings.button_padding_vertical }}px;
+    --ssc-button-padding-x: {{ section.settings.button_padding_horizontal }}px;
+    --ssc-button-gap: {{ section.settings.button_spacing_top }}px;
+    --ssc-image-y: {{ section.settings.image_vertical_offset }}px;
+    --ssc-mobile-media-order: {% if section.settings.mobile_image_first %}1{% else %}2{% endif %};
+    --ssc-mobile-content-order: {% if section.settings.mobile_image_first %}2{% else %}1{% endif %};
+  "
+>
+  {% if background_image != blank %}
+    <div class="signature-supplements__background-media"></div>
+  {% endif %}
+  <div class="signature-supplements__background-overlay"></div>
+  <div class="signature-supplements__inner">
+    <div class="signature-supplements__layout">
+      <div class="signature-supplements__media">
+        <div class="signature-supplements__media-frame">
+          {% if section.settings.image != blank %}
+            {{
+              section.settings.image
+              | image_url: width: 1440
+              | image_tag:
+                widths: image_widths,
+                sizes: image_sizes,
+                class: 'signature-supplements__image',
+                loading: 'lazy',
+                alt: image_alt
+            }}
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'signature-supplements__image signature-supplements__image--placeholder' }}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="signature-supplements__content signature-supplements__content--{{ section.settings.text_alignment }}">
+        {% if section.settings.heading != blank %}
+          <h2 class="signature-supplements__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        {% endif %}
+
+        {% if section.settings.button_label != blank %}
+          {% if section.settings.button_link != blank %}
+            <a class="signature-supplements__button" href="{{ section.settings.button_link }}">
+              {{ section.settings.button_label }}
+            </a>
+          {% else %}
+            <span class="signature-supplements__button signature-supplements__button--disabled">
+              {{ section.settings.button_label }}
+            </span>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .signature-supplements {
+    position: relative;
+    background: var(--ssc-background);
+    overflow: hidden;
+  }
+
+  .signature-supplements__background-media,
+  .signature-supplements__background-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .signature-supplements__background-media {
+    z-index: 0;
+    background-image: var(--ssc-background-image);
+    background-position: var(--ssc-background-position);
+    background-size: var(--ssc-background-size);
+    background-repeat: var(--ssc-background-repeat);
+  }
+
+  .signature-supplements__background-overlay {
+    z-index: 1;
+    background: var(--ssc-background-overlay);
+  }
+
+  .signature-supplements__inner {
+    position: relative;
+    z-index: 2;
+    max-width: var(--ssc-max-width);
+    min-height: var(--ssc-min-height-desktop);
+    margin: 0 auto;
+    padding-top: var(--ssc-padding-top);
+    padding-bottom: var(--ssc-padding-bottom);
+    padding-inline: min(var(--ssc-padding-inline), 5vw);
+    display: flex;
+    align-items: center;
+  }
+
+  .signature-supplements__layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    align-items: center;
+    gap: var(--ssc-column-gap);
+  }
+
+  .signature-supplements--image-right .signature-supplements__layout {
+    grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .signature-supplements--image-right .signature-supplements__content {
+    order: 1;
+  }
+
+  .signature-supplements--image-right .signature-supplements__media {
+    order: 2;
+  }
+
+  .signature-supplements__media {
+    width: 100%;
+    max-width: var(--ssc-media-max-width);
+    transform: translateY(var(--ssc-image-y));
+  }
+
+  .signature-supplements--hide-side-image .signature-supplements__media {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .signature-supplements__media-frame {
+    width: 100%;
+  }
+
+  .signature-supplements__image,
+  .signature-supplements__media-frame .placeholder-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .signature-supplements__image--placeholder,
+  .signature-supplements__media-frame .placeholder-svg {
+    background: rgba(255, 255, 255, 0.28);
+    fill: rgba(0, 0, 0, 0.18);
+  }
+
+  .signature-supplements__content {
+    width: 100%;
+    max-width: var(--ssc-content-max-width);
+  }
+
+  .signature-supplements__content--left {
+    justify-self: start;
+    text-align: left;
+  }
+
+  .signature-supplements__content--center {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .signature-supplements__content--right {
+    justify-self: end;
+    text-align: right;
+  }
+
+  .signature-supplements__heading {
+    margin: 0;
+    color: var(--ssc-heading-color);
+    font-family: var(--font-heading--family);
+    font-style: var(--font-heading--style);
+    font-size: var(--ssc-heading-size-desktop);
+    font-weight: var(--ssc-heading-weight);
+    line-height: var(--ssc-heading-line-height);
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .signature-supplements__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--ssc-button-gap);
+    min-width: 0;
+    padding: var(--ssc-button-padding-y) var(--ssc-button-padding-x);
+    border: 1px solid var(--ssc-button-border);
+    border-radius: var(--ssc-button-radius);
+    background: var(--ssc-button-bg);
+    color: var(--ssc-button-color);
+    font-family: var(--font-body--family);
+    font-style: var(--font-body--style);
+    font-size: var(--ssc-button-size);
+    font-weight: var(--ssc-button-weight);
+    line-height: 1;
+    letter-spacing: 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .signature-supplements__button:hover {
+    background: var(--ssc-button-hover-bg);
+    color: var(--ssc-button-hover-color);
+    border-color: var(--ssc-button-hover-border);
+  }
+
+  .signature-supplements__button--disabled {
+    pointer-events: none;
+  }
+
+  @media screen and (min-width: 1440px) {
+    .signature-supplements__layout {
+      grid-template-columns: minmax(0, 760px) minmax(320px, 430px);
+      justify-content: space-between;
+    }
+
+    .signature-supplements--image-right .signature-supplements__layout {
+      grid-template-columns: minmax(320px, 430px) minmax(0, 760px);
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .signature-supplements__inner {
+      min-height: auto;
+    }
+
+    .signature-supplements__layout,
+    .signature-supplements--image-right .signature-supplements__layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    .signature-supplements__media,
+    .signature-supplements--image-right .signature-supplements__media {
+      max-width: min(100%, var(--ssc-media-max-width));
+      margin-inline: auto;
+      order: var(--ssc-mobile-media-order);
+      transform: none;
+    }
+
+    .signature-supplements__content,
+    .signature-supplements--image-right .signature-supplements__content {
+      max-width: 100%;
+      order: var(--ssc-mobile-content-order);
+      justify-self: center;
+      text-align: center;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .signature-supplements__inner {
+      min-height: var(--ssc-min-height-mobile);
+      padding-inline: 20px;
+    }
+
+    .signature-supplements__heading {
+      font-size: var(--ssc-heading-size-mobile);
+    }
+  }
+{% endstylesheet %}
+ 
+{% schema %}
+{
+  "name": "Signature Image with text",
+  "tag": "section",
+  "class": "section-signature-supplements",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#E7F2FA"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "color",
+      "id": "background_overlay_color",
+      "label": "Background overlay color",
+      "default": "#E7F2FA"
+    },
+    {
+      "type": "range",
+      "id": "background_overlay_opacity",
+      "label": "Background overlay opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background position",
+      "options": [
+        {
+          "value": "left top",
+          "label": "Left top"
+        },
+        {
+          "value": "center top",
+          "label": "Center top"
+        },
+        {
+          "value": "right top",
+          "label": "Right top"
+        },
+        {
+          "value": "left center",
+          "label": "Left center"
+        },
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "right center",
+          "label": "Right center"
+        },
+        {
+          "value": "left bottom",
+          "label": "Left bottom"
+        },
+        {
+          "value": "center bottom",
+          "label": "Center bottom"
+        },
+        {
+          "value": "right bottom",
+          "label": "Right bottom"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background image fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_repeat",
+      "label": "Background repeat",
+      "options": [
+        {
+          "value": "no-repeat",
+          "label": "No repeat"
+        },
+        {
+          "value": "repeat",
+          "label": "Repeat"
+        },
+        {
+          "value": "repeat-x",
+          "label": "Repeat horizontally"
+        },
+        {
+          "value": "repeat-y",
+          "label": "Repeat vertically"
+        }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_side_image",
+      "label": "Show side image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_image_first",
+      "label": "Show image first on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "section_height_desktop",
+      "label": "Section height desktop",
+      "min": 320,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "default": 390
+    },
+    {
+      "type": "range",
+      "id": "section_height_mobile",
+      "label": "Section height mobile",
+      "min": 240,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 420
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find Your Signature\nSupplements"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#E1274C"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button border color",
+      "default": "#E1274C"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#C01F40"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Button hover text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Button hover border color",
+      "default": "#C01F40"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "label": "Section max width",
+      "min": 960,
+      "max": 1800,
+      "step": 10,
+      "unit": "px",
+      "default": 1440
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Side padding",
+      "min": 16,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 12,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "image_max_width",
+      "label": "Image max width",
+      "min": 280,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 760
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 240,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 430
+    },
+    {
+      "type": "range",
+      "id": "image_vertical_offset",
+      "label": "Image vertical offset",
+      "min": -80,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size desktop",
+      "min": 24,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 58
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size mobile",
+      "min": 24,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Heading line height",
+      "min": 0.9,
+      "max": 1.4,
+      "step": 0.1,
+      "default": 1.0
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "select",
+      "id": "button_weight",
+      "label": "Button font weight",
+      "options": [
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Button text size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Button vertical padding",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Button horizontal padding",
+      "min": 16,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "button_spacing_top",
+      "label": "Heading to button gap",
+      "min": 8,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    }
+  ],
+  "presets": [
+    {
+      "name": "Signature supplements callout"
+    }
+  ]
+}
+{% endschema %}

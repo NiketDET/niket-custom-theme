@@ -192,6 +192,112 @@
         "slider_speed": 550
       }
     },
+    "subscribe_save_qJ8rXG": {
+      "type": "subscribe-save",
+      "blocks": {
+        "feature_kG9sXJ": {
+          "type": "feature",
+          "settings": {
+            "icon": "",
+            "title": "Savings",
+            "description": "<p>Save up to 33% on every delivery, every time.</p>"
+          }
+        },
+        "feature_7nW4pM": {
+          "type": "feature",
+          "settings": {
+            "icon": "",
+            "title": "Free Gifts",
+            "description": "<p>Get a <strong>free cream</strong> with each and every delivery.</p>"
+          }
+        },
+        "feature_9yJr5n": {
+          "type": "feature",
+          "settings": {
+            "icon": "",
+            "title": "Earn Free Products",
+            "description": "<p>Join Healthy Rewards and earn bonus points on every subscription order.</p>"
+          }
+        },
+        "feature_gd3AqF": {
+          "type": "feature",
+          "settings": {
+            "icon": "",
+            "title": "Flexibility",
+            "description": "<p>Receive your supplements on your schedule – pause, skip, or cancel any time.</p>"
+          }
+        },
+        "feature_Km7sQd": {
+          "type": "feature",
+          "settings": {
+            "icon": "",
+            "title": "Extended Money Back Guarantee",
+            "description": "<p>Get a 90 day money back guarantee (less s&amp;h) instead of the regular 30 days</p>"
+          }
+        }
+      },
+      "block_order": [
+        "feature_kG9sXJ",
+        "feature_7nW4pM",
+        "feature_9yJr5n",
+        "feature_gd3AqF",
+        "feature_Km7sQd"
+      ],
+      "settings": {
+        "title": "Subscribe & Save",
+        "subtitle": "Get big savings, free gifts, bonus rewards, and an extended money back guarantee when you subscribe to your wellness routine.",
+        "button_label": "Learn More",
+        "button_link": "",
+        "background_color": "#f4f4f4",
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "padding_inline": 80
+      }
+    },
+    "reviews_section_t7zQpB": {
+      "type": "reviews-section",
+      "blocks": {
+        "review_g8sQz2": {
+          "type": "review",
+          "settings": {
+            "review_count": "100 Reviews",
+            "title": "Lorem Ipsum",
+            "text": "Lorem ipsum dolor sit amet consectetur. Quis diam nunc eros vestibulum viverra eu. Tortor commodo in massa aliquet.",
+            "name": "Customer Name Goes Here",
+            "verified_text": "Verified Buyer"
+          }
+        },
+        "review_D4k9pM": {
+          "type": "review",
+          "settings": {
+            "review_count": "100 Reviews",
+            "title": "Lorem Ipsum",
+            "text": "Lorem ipsum dolor sit amet consectetur. Quis diam nunc eros vestibulum viverra eu. Tortor commodo in massa aliquet.",
+            "name": "Customer Name Goes Here",
+            "verified_text": "Verified Buyer"
+          }
+        },
+        "review_rT2mWq": {
+          "type": "review",
+          "settings": {
+            "review_count": "100 Reviews",
+            "title": "Lorem Ipsum",
+            "text": "Lorem ipsum dolor sit amet consectetur. Quis diam nunc eros vestibulum viverra eu. Tortor commodo in massa aliquet.",
+            "name": "Customer Name Goes Here",
+            "verified_text": "Verified Buyer"
+          }
+        }
+      },
+      "block_order": [
+        "review_g8sQz2",
+        "review_D4k9pM",
+        "review_rT2mWq"
+      ],
+      "settings": {
+        "eyebrow": "REVIEWS",
+        "title": "What People Are Saying"
+      }
+    },
     "quality_commitment_badges_4kLPMR": {
       "type": "quality-commitment-badges",
       "blocks": {
@@ -386,6 +492,48 @@
         "padding_top": 64,
         "padding_bottom": 64,
         "button_radius": 30
+      }
+    },
+    "founder_commitment_zyTXYD": {
+      "type": "founder-commitment",
+      "name": "Founder commitment",
+      "settings": {
+        "eyebrow": "MEET STEPHAN KARIAN",
+        "heading": "I’m Committed to Enhancing\nthe Quality of Your Life!",
+        "intro_text": "<p>Dear friend,</p><p>In 1995, I started Great American Products with a passion and a clear purpose: to create nutritional supplements designed to support overall wellness and quality of life.</p><p>That purpose was shaped years earlier by a deeply personal experience. When I was 15, my mother (my only parent) faced a serious and confusing health struggle. Despite seeing multiple conventional doctors, answers were difficult to find, and her condition continued to decline. Over time, she became extremely thin, dropping to just 98 pounds, and the emotional strain on both of us was heavy.</p>",
+        "expanded_text": "<p>There were many days when I came home from high school uncertain about what I might find. My mother was battling deep depression and the fear of losing her was constant.</p><p>Driven by that experience, I founded Great American Products with limited resources and a great deal of determination. That mission continues to guide everything we do.</p>",
+        "read_more_label": "READ MORE",
+        "read_less_label": "READ LESS",
+        "image": "shopify://shop_images/image_3.png",
+        "image_position": "right",
+        "mobile_image_first": true,
+        "background_color": "#F4F4F4",
+        "eyebrow_color": "#D71E47",
+        "heading_color": "#000000",
+        "body_color": "#001A38",
+        "toggle_color": "#124A88",
+        "image_border_color": "#D71E47",
+        "section_max_width": 1320,
+        "title_max_width": 1000,
+        "copy_max_width": 600,
+        "image_width": 520,
+        "image_aspect_ratio": "1.37 / 1",
+        "column_gap": 100,
+        "row_gap": 80,
+        "padding_top": 92,
+        "padding_bottom": 92,
+        "padding_inline": 32,
+        "eyebrow_size_desktop": 24,
+        "eyebrow_size_mobile": 18,
+        "heading_size_desktop": 48,
+        "heading_size_mobile": 34,
+        "body_size_desktop": 20,
+        "body_size_mobile": 17,
+        "body_line_height_desktop": 30,
+        "body_line_height_mobile": 27,
+        "toggle_size": 18,
+        "image_radius": 10,
+        "image_border_width": 2
       }
     },
     "supplement_hero_slider_Adz6jK": {
@@ -1172,6 +1320,27 @@
         "gradient_direction": "to top",
         "padding-block-start": 32,
         "padding-block-end": 32
+      }
+    },
+    "california_city_locator_nHecYq": {
+      "type": "california-city-locator",
+      "name": "California city locator",
+      "settings": {
+        "eyebrow": "California locator",
+        "heading": "Find the nearest California city",
+        "description": "<p>An interactive California map that highlights major cities and automatically selects the closest supported location for the current visitor.</p>",
+        "background_color": "#edf5f3",
+        "card_background": "#f8fbfa",
+        "text_color": "#102228",
+        "muted_text_color": "#4e6770",
+        "accent_color": "#1f7a6f",
+        "accent_soft_color": "#dcefeb",
+        "map_inactive_color": "#d7dfde",
+        "map_hover_color": "#b8cec9",
+        "map_active_color": "#ff8f5c",
+        "border_color": "#c6d5d2",
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "section_RM9ymh": {
@@ -2869,34 +3038,16 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
-    },
-    "california_city_locator_nHecYq": {
-      "type": "california-city-locator",
-      "name": "California city locator",
-      "settings": {
-        "eyebrow": "California locator",
-        "heading": "Find the nearest California city",
-        "description": "<p>An interactive California map that highlights major cities and automatically selects the closest supported location for the current visitor.</p>",
-        "background_color": "#edf5f3",
-        "card_background": "#f8fbfa",
-        "text_color": "#102228",
-        "muted_text_color": "#4e6770",
-        "accent_color": "#1f7a6f",
-        "accent_soft_color": "#dcefeb",
-        "map_inactive_color": "#d7dfde",
-        "map_hover_color": "#b8cec9",
-        "map_active_color": "#ff8f5c",
-        "border_color": "#c6d5d2",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
     }
   },
   "order": [
     "hero_jVaWmY",
     "hero_slider_custom_TDLVCC",
+    "subscribe_save_qJ8rXG",
+    "reviews_section_t7zQpB",
     "quality_commitment_badges_4kLPMR",
     "supplement_quiz_collage_fy3itN",
+    "founder_commitment_zyTXYD",
     "supplement_hero_slider_Adz6jK",
     "product_list_qU3bEB",
     "slideshow_FfDbKf",

@@ -1,0 +1,687 @@
+{% liquid
+  assign section_id = 'founder-commitment-' | append: section.id
+  assign image_alt = section.settings.image.alt | default: section.settings.heading | escape
+%}
+
+<section
+  class="founder-commitment founder-commitment--{{ section.id }}"
+  style="
+    --fc-background: {{ section.settings.background_color }};
+    --fc-eyebrow-color: {{ section.settings.eyebrow_color }};
+    --fc-heading-color: {{ section.settings.heading_color }};
+    --fc-body-color: {{ section.settings.body_color }};
+    --fc-toggle-color: {{ section.settings.toggle_color }};
+    --fc-border-color: {{ section.settings.image_border_color }};
+    --fc-max-width: {{ section.settings.section_max_width }}px;
+    --fc-title-max-width: {{ section.settings.title_max_width }}px;
+    --fc-copy-max-width: {{ section.settings.copy_max_width }}px;
+    --fc-column-gap: {{ section.settings.column_gap }}px;
+    --fc-row-gap: {{ section.settings.row_gap }}px;
+    --fc-padding-top: {{ section.settings.padding_top }}px;
+    --fc-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --fc-padding-inline: {{ section.settings.padding_inline }}px;
+    --fc-eyebrow-size-desktop: {{ section.settings.eyebrow_size_desktop }}px;
+    --fc-eyebrow-size-mobile: {{ section.settings.eyebrow_size_mobile }}px;
+    --fc-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --fc-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --fc-body-size-desktop: {{ section.settings.body_size_desktop }}px;
+    --fc-body-size-mobile: {{ section.settings.body_size_mobile }}px;
+    --fc-body-line-height-desktop: {{ section.settings.body_line_height_desktop }}px;
+    --fc-body-line-height-mobile: {{ section.settings.body_line_height_mobile }}px;
+    --fc-toggle-size: {{ section.settings.toggle_size }}px;
+    --fc-image-width: {{ section.settings.image_width }}px;
+    --fc-image-radius: {{ section.settings.image_radius }}px;
+    --fc-image-border-width: {{ section.settings.image_border_width }}px;
+    --fc-image-ratio: {{ section.settings.image_aspect_ratio }};
+    --fc-mobile-media-order: {% if section.settings.mobile_image_first %}1{% else %}2{% endif %};
+    --fc-mobile-copy-order: {% if section.settings.mobile_image_first %}2{% else %}1{% endif %};
+  "
+>
+  <div class="founder-commitment__inner">
+    <div class="founder-commitment__header">
+      {% if section.settings.eyebrow != blank %}
+        <p class="founder-commitment__eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="founder-commitment__heading">{{ section.settings.heading | newline_to_br }}</h2>
+      {% endif %}
+    </div>
+
+    <div class="founder-commitment__content founder-commitment__content--image-{{ section.settings.image_position }}">
+      <div class="founder-commitment__copy">
+        {% if section.settings.intro_text != blank %}
+          <div class="founder-commitment__text founder-commitment__text--intro rte">
+            {{ section.settings.intro_text }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.expanded_text != blank %}
+          <details class="founder-commitment__details" id="{{ section_id }}">
+            <summary class="founder-commitment__summary">
+              <span class="founder-commitment__summary-label founder-commitment__summary-label--more">
+                {{ section.settings.read_more_label }}
+              </span>
+              <span class="founder-commitment__summary-label founder-commitment__summary-label--less">
+                {{ section.settings.read_less_label }}
+              </span>
+              <span class="founder-commitment__summary-icon" aria-hidden="true">
+                <svg viewBox="0 0 10 10" focusable="false">
+                  <path d="M2 3.25L5 6.25L8 3.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"/>
+                </svg>
+              </span>
+            </summary>
+
+            <div class="founder-commitment__text founder-commitment__text--expanded rte">
+              {{ section.settings.expanded_text }}
+            </div>
+          </details>
+        {% endif %}
+      </div>
+
+      <div class="founder-commitment__media">
+        {% if section.settings.image != blank %}
+          <div class="founder-commitment__image-frame">
+            {{
+              section.settings.image
+              | image_url: width: 1200
+              | image_tag:
+                class: 'founder-commitment__image',
+                widths: '320, 480, 640, 800, 960, 1200',
+                loading: 'lazy',
+                alt: image_alt
+            }}
+          </div>
+        {% else %}
+          <div class="founder-commitment__image-frame founder-commitment__image-frame--placeholder">
+            {{ 'image' | placeholder_svg_tag: 'founder-commitment__image founder-commitment__image--placeholder' }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .founder-commitment {
+    background: var(--fc-background);
+    padding-top: var(--fc-padding-top);
+    padding-bottom: var(--fc-padding-bottom);
+  }
+
+  .founder-commitment__inner {
+    max-width: var(--fc-max-width);
+    margin: 0 auto;
+    padding-inline: min(var(--fc-padding-inline), 5vw);
+  }
+
+  .founder-commitment__header {
+    max-width: var(--fc-title-max-width);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .founder-commitment__eyebrow {
+    margin: 0 0 18px;
+    color: var(--fc-eyebrow-color);
+    font-family: var(--font-subheading--family);
+    font-style: var(--font-subheading--style);
+    font-size: var(--fc-eyebrow-size-desktop);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .founder-commitment__heading {
+    margin: 0;
+    color: var(--fc-heading-color);
+    font-family: var(--font-heading--family);
+    font-style: var(--font-heading--style);
+    font-size: var(--fc-heading-size-desktop);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .founder-commitment__content {
+    display: grid;
+    grid-template-columns: minmax(0, var(--fc-copy-max-width)) minmax(280px, var(--fc-image-width));
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--fc-column-gap);
+    margin-top: var(--fc-row-gap);
+  }
+
+  .founder-commitment__content--image-left {
+    grid-template-columns: minmax(280px, var(--fc-image-width)) minmax(0, var(--fc-copy-max-width));
+  }
+
+  .founder-commitment__content--image-left .founder-commitment__copy {
+    order: 2;
+  }
+
+  .founder-commitment__content--image-left .founder-commitment__media {
+    order: 1;
+  }
+
+  .founder-commitment__copy {
+    min-width: 0;
+    width: 100%;
+    max-width: var(--fc-copy-max-width);
+  }
+
+  .founder-commitment__text {
+    color: var(--fc-body-color);
+    font-family: var(--font-body--family);
+    font-style: var(--font-body--style);
+    font-size: var(--fc-body-size-desktop);
+    font-weight: 400;
+    line-height: calc(var(--fc-body-line-height-desktop) / var(--fc-body-size-desktop));
+    letter-spacing: 0;
+  }
+
+  .founder-commitment__text p {
+    margin: 0 0 18px;
+  }
+
+  .founder-commitment__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .founder-commitment__details {
+    margin-top: 16px;
+  }
+
+  .founder-commitment__summary {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--fc-toggle-color);
+    font-family: var(--font-body--family);
+    font-style: var(--font-body--style);
+    font-size: var(--fc-toggle-size);
+    font-weight: 700;
+    line-height: 1.55;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .founder-commitment__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .founder-commitment__summary-label--less,
+  .founder-commitment__details[open] .founder-commitment__summary-label--more {
+    display: none;
+  }
+
+  .founder-commitment__details[open] .founder-commitment__summary-label--less {
+    display: inline;
+  }
+
+  .founder-commitment__summary-icon {
+    display: inline-flex;
+    width: 10px;
+    height: 10px;
+    transition: transform 0.2s ease;
+  }
+
+  .founder-commitment__summary-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .founder-commitment__details[open] .founder-commitment__summary-icon {
+    transform: rotate(180deg);
+  }
+
+  .founder-commitment__text--expanded {
+    margin-top: 20px;
+  }
+
+  .founder-commitment__media {
+    min-width: 0;
+    width: 100%;
+    max-width: var(--fc-image-width);
+    justify-self: end;
+  }
+
+  .founder-commitment__image-frame {
+    position: relative;
+    overflow: hidden;
+    border: var(--fc-image-border-width) solid var(--fc-border-color);
+    border-radius: var(--fc-image-radius);
+    aspect-ratio: var(--fc-image-ratio);
+    background: rgba(255, 255, 255, 0.55);
+  }
+
+  .founder-commitment__image,
+  .founder-commitment__image-frame .placeholder-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .founder-commitment__image-frame--placeholder .placeholder-svg {
+    background: rgba(255, 255, 255, 0.65);
+    fill: rgba(0, 26, 56, 0.25);
+  }
+
+  @media screen and (max-width: 989px) {
+    .founder-commitment__content,
+    .founder-commitment__content--image-left {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+    }
+
+    .founder-commitment__content--image-left .founder-commitment__copy,
+    .founder-commitment__content--image-left .founder-commitment__media {
+      order: initial;
+    }
+
+    .founder-commitment__copy,
+    .founder-commitment__media {
+      max-width: 100%;
+    }
+
+    .founder-commitment__media {
+      justify-self: center;
+      width: min(100%, var(--fc-image-width));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .founder-commitment {
+      padding-top: calc(var(--fc-padding-top) * 0.68);
+      padding-bottom: calc(var(--fc-padding-bottom) * 0.68);
+    }
+
+    .founder-commitment__inner {
+      padding-inline: 20px;
+    }
+
+    .founder-commitment__header {
+      max-width: 100%;
+    }
+
+    .founder-commitment__eyebrow {
+      margin-bottom: 14px;
+      font-size: var(--fc-eyebrow-size-mobile);
+    }
+
+    .founder-commitment__heading {
+      font-size: var(--fc-heading-size-mobile);
+      line-height: 1.06;
+    }
+
+    .founder-commitment__content,
+    .founder-commitment__content--image-left {
+      margin-top: 40px;
+      gap: 28px;
+    }
+
+    .founder-commitment__media {
+      order: var(--fc-mobile-media-order);
+      width: 100%;
+    }
+
+    .founder-commitment__copy {
+      order: var(--fc-mobile-copy-order);
+    }
+
+    .founder-commitment__text {
+      font-size: var(--fc-body-size-mobile);
+      line-height: calc(var(--fc-body-line-height-mobile) / var(--fc-body-size-mobile));
+    }
+
+    .founder-commitment__summary {
+      font-size: calc(var(--fc-toggle-size) - 1px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Founder commitment",
+  "tag": "section",
+  "class": "section-founder-commitment",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "MEET STEPHAN KARIAN"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "I’m Committed to Enhancing\nthe Quality of Your Life!"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro text",
+      "default": "<p>Dear friend,</p><p>In 1995, I started Great American Products with a passion and a clear purpose: to create nutritional supplements designed to support overall wellness and quality of life.</p><p>That purpose was shaped years earlier by a deeply personal experience. When I was 15, my mother (my only parent) faced a serious and confusing health struggle. Despite seeing multiple conventional doctors, answers were difficult to find, and her condition continued to decline. Over time, she became extremely thin, dropping to just 98 pounds, and the emotional strain on both of us was heavy.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "expanded_text",
+      "label": "Expanded text",
+      "default": "<p>There were many days when I came home from high school uncertain about what I might find. My mother was battling deep depression and the fear of losing her was constant.</p><p>Driven by that experience, I founded Great American Products with limited resources and a great deal of determination. That mission continues to guide everything we do.</p>"
+    },
+    {
+      "type": "text",
+      "id": "read_more_label",
+      "label": "Read more label",
+      "default": "READ MORE"
+    },
+    {
+      "type": "text",
+      "id": "read_less_label",
+      "label": "Read less label",
+      "default": "READ LESS"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_image_first",
+      "label": "Show image first on mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F4F4F4"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#D71E47"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body text color",
+      "default": "#001A38"
+    },
+    {
+      "type": "color",
+      "id": "toggle_color",
+      "label": "Read more color",
+      "default": "#124A88"
+    },
+    {
+      "type": "color",
+      "id": "image_border_color",
+      "label": "Image border color",
+      "default": "#D71E47"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "label": "Section max width",
+      "min": 900,
+      "max": 1600,
+      "step": 10,
+      "unit": "px",
+      "default": 1320
+    },
+    {
+      "type": "range",
+      "id": "title_max_width",
+      "label": "Title max width",
+      "min": 500,
+      "max": 1200,
+      "step": 10,
+      "unit": "px",
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "copy_max_width",
+      "label": "Copy column width",
+      "min": 360,
+      "max": 760,
+      "step": 10,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Image width",
+      "min": 280,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 520
+    },
+    {
+      "type": "text",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "info": "Use a value like 1.37 / 1 or 4 / 3",
+      "default": "1.37 / 1"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 20,
+      "max": 180,
+      "step": 2,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Heading to content gap",
+      "min": 20,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 20,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "default": 92
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 20,
+      "max": 180,
+      "step": 4,
+      "unit": "px",
+      "default": 92
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Side padding",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px", 
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size_desktop",
+      "label": "Eyebrow size desktop",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size_mobile",
+      "label": "Eyebrow size mobile",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size desktop",
+      "min": 24,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size mobile",
+      "min": 22,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "body_size_desktop",
+      "label": "Body size desktop",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "body_size_mobile",
+      "label": "Body size mobile",
+      "min": 13,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "range",
+      "id": "body_line_height_desktop",
+      "label": "Body line height desktop",
+      "min": 18,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "body_line_height_mobile",
+      "label": "Body line height mobile",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 27
+    },
+    {
+      "type": "range",
+      "id": "toggle_size",
+      "label": "Read more size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Image styling"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "image_border_width",
+      "label": "Image border width",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    }
+  ],
+  "presets": [
+    {
+      "name": "Founder commitment"
+    }
+  ]
+}
+{% endschema %}

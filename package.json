@@ -1,0 +1,25 @@
+{
+  "name": "niket-custom-theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i css/application.css -o assets/application.css.liquid -w -m"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiketDET/niket-custom-theme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/NiketDET/niket-custom-theme/issues"
+  },
+  "homepage": "https://github.com/NiketDET/niket-custom-theme#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "tailwindcss": "^4.2.1"
+  }
+}

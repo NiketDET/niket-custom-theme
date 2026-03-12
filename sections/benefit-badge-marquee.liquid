@@ -1,0 +1,602 @@
+<script
+  src="{{ 'marquee.js' | asset_url }}"
+  type="module"
+></script>
+
+<section
+  class="benefit-badge-marquee benefit-badge-marquee--{{ section.id }}"
+  style="
+    --bbm-bg: {{ section.settings.background_color }};
+    --bbm-accent-color: {{ section.settings.accent_color }};
+    --bbm-accent-height: {{ section.settings.accent_height }}px;
+    --bbm-text-color: {{ section.settings.text_color }};
+    --bbm-icon-color: {{ section.settings.icon_color }};
+    --bbm-max-width: {{ section.settings.section_max_width }}px;
+    --bbm-padding-inline: {{ section.settings.padding_inline }}px;
+    --bbm-padding-top: {{ section.settings.padding_top }}px;
+    --bbm-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --bbm-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --bbm-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --bbm-gap: {{ section.settings.item_gap }}px;
+    --bbm-item-gap: {{ section.settings.icon_gap }}px;
+    --bbm-font-size: {{ section.settings.text_size_desktop }}px;
+    --bbm-font-size-mobile: {{ section.settings.text_size_mobile }}px;
+    --bbm-icon-size: {{ section.settings.icon_size_desktop }}px;
+    --bbm-icon-size-mobile: {{ section.settings.icon_size_mobile }}px;
+    --bbm-letter-spacing: {{ section.settings.letter_spacing }}em;
+    --bbm-font-weight: {{ section.settings.font_weight }};
+    --bbm-radius: {{ section.settings.item_radius }}px;
+    --bbm-speed-factor: {{ section.settings.speed_factor }};
+  "
+>
+  <marquee-component
+    class="benefit-badge-marquee__track"
+    data-speed-factor="{{ section.settings.speed_factor }}"
+    data-movement-direction="{{ section.settings.movement_direction }}"
+    style="--marquee-direction: {{ section.settings.movement_direction }};"
+  >
+    <div
+      class="benefit-badge-marquee__wrapper"
+      ref="wrapper"
+    >
+      <div
+        class="benefit-badge-marquee__content"
+        ref="content"
+      >
+        <div class="benefit-badge-marquee__repeated-items">
+          {% for block in section.blocks %}
+            {% liquid
+              assign has_link = false
+              if block.settings.link != blank
+                assign has_link = true
+              endif
+            %}
+
+            {% if has_link %}
+              <a
+                class="benefit-badge-marquee__item benefit-badge-marquee__item--link"
+                href="{{ block.settings.link }}"
+                {% if block.settings.open_new_tab %}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                {% endif %}
+                aria-label="{{ block.settings.label | escape }}"
+                {{ block.shopify_attributes }}
+              >
+            {% else %}
+              <div
+                class="benefit-badge-marquee__item"
+                {{ block.shopify_attributes }}
+              >
+            {% endif %}
+
+            {% if block.settings.icon != 'none' or block.settings.custom_icon != blank %}
+              <span class="benefit-badge-marquee__icon-wrap">
+                {% render 'icon-or-image',
+                  icon: block.settings.icon,
+                  image_upload: block.settings.custom_icon,
+                  width: section.settings.icon_size_desktop,
+                  class_name: 'benefit-badge-marquee__icon'
+                %}
+              </span>
+            {% endif %}
+
+            <span class="benefit-badge-marquee__label">{{ block.settings.label }}</span>
+
+            {% if has_link %}
+              </a>
+            {% else %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </marquee-component>
+</section>
+
+{% stylesheet %}
+  .benefit-badge-marquee {
+    position: relative;
+    width: 100%;
+    background: var(--bbm-bg);
+    border-top: var(--bbm-accent-height) solid var(--bbm-accent-color);
+    overflow: hidden;
+  }
+
+  .benefit-badge-marquee__track {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bbm-bg);
+    padding-top: var(--bbm-padding-top);
+    padding-bottom: var(--bbm-padding-bottom);
+    padding-inline: max(min(var(--bbm-padding-inline), 5vw), calc((100vw - var(--bbm-max-width)) / 2));
+  }
+
+  .benefit-badge-marquee__wrapper {
+    display: flex;
+    gap: var(--bbm-gap);
+    width: fit-content;
+    white-space: nowrap;
+  }
+
+  .benefit-badge-marquee__content {
+    min-width: max-content;
+    display: flex;
+    gap: var(--bbm-gap);
+  }
+
+  .benefit-badge-marquee__repeated-items {
+    min-width: max-content;
+    display: flex;
+    align-items: center;
+    gap: var(--bbm-gap);
+    padding-inline: 0;
+    background: var(--bbm-bg);
+  }
+
+  .benefit-badge-marquee__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--bbm-item-gap);
+    min-width: max-content;
+    color: var(--bbm-text-color);
+    text-decoration: none;
+    border-radius: var(--bbm-radius);
+  }
+
+  .benefit-badge-marquee__item--link:hover {
+    opacity: 0.9;
+  }
+
+  .benefit-badge-marquee__icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--bbm-icon-size);
+    height: var(--bbm-icon-size);
+    flex: 0 0 var(--bbm-icon-size);
+    color: var(--bbm-icon-color);
+  }
+
+  .benefit-badge-marquee__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    fill: currentColor;
+    stroke: currentColor;
+  }
+
+  .benefit-badge-marquee__label {
+    display: inline-block;
+    color: var(--bbm-text-color);
+    font-family: var(--font-subheading--family);
+    font-style: var(--font-subheading--style);
+    font-size: var(--bbm-font-size);
+    font-weight: var(--bbm-font-weight);
+    line-height: 1;
+    letter-spacing: var(--bbm-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .benefit-badge-marquee__track:not([data-disabled]) .benefit-badge-marquee__wrapper {
+      animation: badge-marquee-motion var(--marquee-speed) linear infinite var(--marquee-direction);
+    }
+  }
+
+  @keyframes badge-marquee-motion {
+    to {
+      transform: translate3d(calc(-50% - (var(--bbm-gap) / 2)), 0, 0);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .benefit-badge-marquee__track {
+      padding-top: var(--bbm-padding-top-mobile);
+      padding-bottom: var(--bbm-padding-bottom-mobile);
+      padding-inline: 16px;
+    }
+
+    .benefit-badge-marquee__repeated-items {
+      padding-inline: 0;
+    }
+
+    .benefit-badge-marquee__item {
+      gap: max(6px, calc(var(--bbm-item-gap) - 2px));
+    }
+
+    .benefit-badge-marquee__icon-wrap {
+      width: var(--bbm-icon-size-mobile);
+      height: var(--bbm-icon-size-mobile);
+      flex-basis: var(--bbm-icon-size-mobile);
+    }
+
+    .benefit-badge-marquee__label {
+      font-size: var(--bbm-font-size-mobile);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Benefit badge marquee",
+  "tag": "section",
+  "class": "section-benefit-badge-marquee",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "select",
+      "id": "movement_direction",
+      "label": "Movement direction",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Left"
+        },
+        {
+          "value": "reverse",
+          "label": "Right"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "speed_factor",
+      "label": "Animation speed",
+      "min": 5,
+      "max": 100,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#154E96"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Top accent color",
+      "default": "#8A3FFC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "label": "Section max width",
+      "min": 800,
+      "max": 1800,
+      "step": 10,
+      "unit": "px",
+      "default": 1170
+    },
+    {
+      "type": "range",
+      "id": "accent_height",
+      "label": "Top accent height",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Side padding",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding desktop",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding desktop",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Gap between items",
+      "min": 12,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "icon_gap",
+      "label": "Gap between icon and text",
+      "min": 4,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "item_radius",
+      "label": "Item radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "text_size_desktop",
+      "label": "Text size desktop",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size mobile",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 0.3,
+      "step": 0.1,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_size_desktop",
+      "label": "Icon size desktop",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "label": "Icon size mobile",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "GLUTEN FREE"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "gluten_free",
+              "label": "Gluten free"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "plant",
+              "label": "Plant"
+            },
+            {
+              "value": "nut_free",
+              "label": "Nut free"
+            },
+            {
+              "value": "check_box",
+              "label": "Check"
+            },
+            {
+              "value": "stopwatch",
+              "label": "Stopwatch"
+            },
+            {
+              "value": "bottle",
+              "label": "Bottle"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "recycle",
+              "label": "Recycle"
+            }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_tab",
+          "label": "Open link in new tab",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefit badge marquee",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "label": "LACTOSE FREE",
+            "icon": "bottle"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "label": "NON GMO",
+            "icon": "plant"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "label": "KETO FRIENDLY",
+            "icon": "check_box"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "label": "GLUTEN FREE",
+            "icon": "gluten_free"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "label": "VEGAN",
+            "icon": "leaf"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "label": "STIMULANT FREE",
+            "icon": "stopwatch"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "label": "CAFFEINE FREE",
+            "icon": "heart"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

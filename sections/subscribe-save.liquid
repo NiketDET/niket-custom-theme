@@ -1,0 +1,204 @@
+<section class="bg-[#f4f4f4] py-[100px] px-[80px] flex flex-col items-center justify-center gap-[55px]">
+  <div class="w-full max-w-[1000px] flex flex-col items-center justify-center gap-[20px] text-center">
+    <h2 class="text-[48px] font-bold leading-none text-black font-[var(--font-heading)]">
+      {{ section.settings.title }}
+    </h2>
+    <p class="text-[18px] leading-[28px] text-[#001a38] max-w-[568px] font-[var(--font-body)]">
+      {{ section.settings.subtitle }}
+    </p>
+  </div>
+
+  <div class="w-full flex items-start justify-center gap-[50px] max-[1100px]:flex-wrap max-[1100px]:gap-[32px] max-[749px]:flex-col max-[749px]:gap-[24px]">
+    {% for block in section.blocks %}
+      {% assign fallback_icon = '' %}
+      {% case forloop.index %}
+        {% when 1 %}
+          {% assign fallback_icon = 'subscribe-save-savings.png' %}
+        {% when 2 %}
+          {% assign fallback_icon = 'subscribe-save-gift.png' %}
+        {% when 3 %}
+          {% assign fallback_icon = 'subscribe-save-products.png' %}
+        {% when 4 %}
+          {% assign fallback_icon = 'subscribe-save-flexibility.png' %}
+        {% when 5 %}
+          {% assign fallback_icon = 'subscribe-save-guarantee.png' %}
+      {% endcase %}
+
+      <div class="flex-1 min-w-0 flex flex-col items-center justify-center gap-[15px] max-[1100px]:basis-[calc(50%-32px)] max-[1100px]:max-w-[360px] max-[749px]:max-w-full" {{ block.shopify_attributes }}>
+        <div class="w-[80px] h-[80px] flex items-center justify-center">
+          {% if block.settings.icon != blank %}
+            {{
+              block.settings.icon
+              | image_url: width: 80, height: 80
+              | image_tag: class: 'w-[80px] h-[80px] object-contain', loading: 'lazy', alt: block.settings.title
+            }}
+          {% else %}
+            <img
+              class="w-[80px] h-[80px] object-contain"
+              src="{{ fallback_icon | asset_url }}"
+              width="80"
+              height="80"
+              loading="lazy"
+              alt="{{ block.settings.title | escape }}"
+            >
+          {% endif %}
+        </div>
+        <div class="flex flex-col gap-[5px] items-center text-center">
+          <h3 class="text-[24px] leading-[34px] font-bold text-[#124a88] font-[var(--font-body)]">
+            {{ block.settings.title }}
+          </h3>
+          <div class="text-[18px] leading-[28px] text-[#001a38] font-[var(--font-body)]">
+            {{ block.settings.description }}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.settings.button_label != blank %}
+    {% if section.settings.button_link != blank %}
+      <a class="bg-[#d71e47] text-white text-[18px] leading-[28px] font-bold uppercase rounded-[100px] px-[32px] py-[8px] inline-flex items-center justify-center font-[var(--font-body)]" href="{{ section.settings.button_link }}">
+        <span>{{ section.settings.button_label }}</span>
+      </a>
+    {% else %}
+      <span class="bg-[#d71e47] text-white text-[18px] leading-[28px] font-bold uppercase rounded-[100px] px-[32px] py-[8px] inline-flex items-center justify-center font-[var(--font-body)]">
+        <span>{{ section.settings.button_label }}</span>
+      </span>
+    {% endif %}
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Subscribe & Save",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Subscribe & Save"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Get big savings, free gifts, bonus rewards, and an extended money back guarantee when you subscribe to your wellness routine."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F4F4F4"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Savings"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Save up to 33% on every delivery, every time.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Subscribe & Save",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Savings",
+            "description": "<p>Save up to 33% on every delivery, every time.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Free Gifts",
+            "description": "<p>Get a <strong>free cream</strong> with each and every delivery.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Earn Free Products",
+            "description": "<p>Join Healthy Rewards and earn bonus points on every subscription order.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Flexibility",
+            "description": "<p>Receive your supplements on your schedule – pause, skip, or cancel any time.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Extended Money Back Guarantee",
+            "description": "<p>Get a 90 day money back guarantee (less s&amp;h) instead of the regular 30 days</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

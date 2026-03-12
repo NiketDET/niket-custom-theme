@@ -1,0 +1,187 @@
+@layer base {
+  :root {
+    --color-brand-red: #d71e47;
+    --color-brand-blue: #124a88;
+    --color-text-dark: #001a38;
+    --color-text-muted: #777777;
+    --color-bg-light: #f4f4f4;
+    --color-border-blue: #4aa0ff;
+  }
+}
+
+@layer components {
+  .ss-section {
+    @apply bg-[var(--color-bg-light)] py-[100px] px-[80px] flex flex-col items-center justify-center gap-[55px];
+  }
+
+  .ss-copy {
+    @apply w-full max-w-[1000px] flex flex-col items-center justify-center gap-[20px] text-center;
+  }
+
+  .ss-title {
+    font-family: "Area Normal", var(--font-heading--family), sans-serif;
+    @apply text-[48px] font-bold leading-none text-black;
+  }
+
+  .ss-subtitle {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply text-[18px] leading-[28px] text-[var(--color-text-dark)] max-w-[568px];
+  }
+
+  .ss-cards {
+    @apply w-full flex items-start justify-center gap-[50px];
+  }
+
+  .ss-card {
+    @apply flex-1 min-w-0 flex flex-col items-center justify-center gap-[15px];
+  }
+
+  .ss-icon {
+    @apply w-[80px] h-[80px] flex items-center justify-center;
+  }
+
+  .ss-card-title {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply text-[24px] leading-[34px] font-bold text-[var(--color-brand-blue)] text-center;
+  }
+
+  .ss-card-text {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply text-[18px] leading-[28px] text-[var(--color-text-dark)] text-center;
+  }
+
+  .ss-card-text strong {
+    @apply text-[var(--color-brand-blue)] font-bold;
+  }
+
+  .ss-button {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply bg-[var(--color-brand-red)] text-white text-[18px] leading-[28px] font-bold uppercase rounded-[100px] px-[32px] py-[8px] inline-flex items-center justify-center;
+  }
+
+  .reviews-section {
+    @apply bg-white;
+  }
+
+  .reviews-inner {
+    @apply relative max-w-[1512px] mx-auto py-[100px] px-[80px] flex flex-col items-center gap-[55px];
+  }
+
+  .reviews-copy {
+    @apply w-full max-w-[1000px] flex flex-col items-center gap-[10px] text-center;
+  }
+
+  .reviews-eyebrow {
+    font-family: "Area Normal", var(--font-heading--family), sans-serif;
+    @apply text-[24px] font-bold leading-none text-[var(--color-brand-red)];
+  }
+
+  .reviews-title {
+    font-family: "Area Normal", var(--font-heading--family), sans-serif;
+    @apply text-[48px] font-bold leading-none text-black;
+  }
+
+  .reviews-card {
+    @apply h-full bg-[var(--color-bg-light)] border-2 border-[var(--color-border-blue)] rounded-[10px];
+  }
+
+  .reviews-card-content {
+    @apply p-[40px] flex flex-col gap-[20px];
+  }
+
+  .reviews-rating {
+    @apply flex items-center gap-[15px];
+  }
+
+  .reviews-stars {
+    @apply flex items-center gap-[5px];
+  }
+
+  .reviews-count {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply text-[18px] leading-[28px] text-[var(--color-text-muted)];
+  }
+
+  .reviews-card-title {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply text-[24px] leading-[34px] font-bold text-[var(--color-brand-blue)];
+  }
+  .reviews-card-text {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply text-[18px] leading-[28px] text-[var(--color-text-dark)];
+  }
+
+  .reviews-name {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply text-[18px] leading-[28px] font-bold text-[var(--color-text-dark)];
+  }
+
+  .reviews-verified-text {
+    font-family: "Roboto", var(--font-body--family), sans-serif;
+    @apply text-[14px] leading-[24px] font-bold text-[var(--color-brand-red)];
+  }
+
+  .reviews-arrows {
+    @apply absolute left-1/2 top-[408px] -translate-x-1/2 w-[min(1390px,100%)] flex items-center justify-between;
+  }
+
+  .reviews-arrow {
+    @apply w-[40px] h-[40px] rounded-[100px] border border-[var(--color-brand-red)] bg-white flex items-center justify-center;
+  }
+}
+
+@layer utilities {
+  @media (max-width: 1100px) {
+    .ss-cards {
+      @apply flex-wrap gap-[32px];
+    }
+
+    .ss-card {
+      @apply basis-[calc(50%-32px)] max-w-[360px];
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .reviews-arrows {
+      @apply static translate-x-0 w-full;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .ss-section {
+      @apply py-[64px] px-[24px] gap-[40px];
+    }
+
+    .ss-title {
+      @apply text-[34px] leading-[1.1];
+    }
+
+    .ss-subtitle {
+      @apply text-[16px] leading-[24px];
+    }
+
+    .ss-cards {
+      @apply flex-col gap-[24px];
+    }
+
+    .ss-card {
+      @apply max-w-full;
+    }
+
+    .reviews-inner {
+      @apply py-[64px] px-[24px] gap-[40px];
+    }
+
+    .reviews-title {
+      @apply text-[34px] leading-[1.1];
+    }
+
+    .reviews-eyebrow {
+      @apply text-[18px];
+    }
+
+    .reviews-card-content {
+      @apply p-[28px];
+    }
+  }
+}

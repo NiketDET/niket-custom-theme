@@ -7,14 +7,21 @@
   style="
     --qc-bg: {{ section.settings.background_color }};
     --qc-heading-color: {{ section.settings.heading_color }};
+    --qc-max-width: {{ section.settings.max_width }}px;
+    --qc-inner-padding-desktop: {{ section.settings.padding_inline_desktop }}px;
+    --qc-inner-padding-mobile: {{ section.settings.padding_inline_mobile }}px;
     --qc-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
     --qc-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
     --qc-heading-weight: {{ section.settings.heading_weight }};
     --qc-logo-height: {{ section.settings.logo_height }}px;
+    --qc-logo-height-tablet: {{ section.settings.logo_height_tablet }}px;
+    --qc-logo-height-mobile: {{ section.settings.logo_height_mobile }}px;
     --qc-col-gap: {{ section.settings.logo_gap_column }}px;
     --qc-row-gap: {{ section.settings.logo_gap_row }}px;
     --qc-heading-gap: {{ section.settings.heading_gap }}px;
     --qc-desktop-columns: {{ section.settings.desktop_columns }};
+    --qc-tablet-columns: {{ section.settings.tablet_columns }};
+    --qc-mobile-columns: {{ section.settings.mobile_columns }};
     --qc-padding-top: {{ section.settings.padding_top }}px;
     --qc-padding-bottom: {{ section.settings.padding_bottom }}px;
   "
@@ -68,25 +75,26 @@
   }
 
   .quality-commitment__inner {
-    max-width: 1480px;
+    max-width: min(var(--qc-max-width), calc(100% - (2 * var(--qc-inner-padding-desktop))));
     margin: 0 auto;
-    padding-inline: clamp(16px, 2.8vw, 44px);
+    padding-inline: 0;
   }
 
   .quality-commitment--page-width .quality-commitment__inner {
-    max-width: 1240px;
+    max-width: min(1240px, calc(100% - (2 * var(--qc-inner-padding-desktop))));
   }
 
   .quality-commitment__heading {
     margin: 0;
     text-align: center;
     color: var(--qc-heading-color);
-    font-family: var(--font-heading-family);
-    font-style: var(--font-heading-style);
-    font-size: clamp(var(--qc-heading-size-mobile), 4.6vw, var(--qc-heading-size-desktop));
+    font-family: var(--font-heading--family);
+    font-style: var(--font-heading--style);
+    font-size: clamp(var(--qc-heading-size-mobile), 2.8vw, var(--qc-heading-size-desktop));
     font-weight: var(--qc-heading-weight);
-    line-height: 1.05;
+    line-height: 1;
     letter-spacing: 0;
+    text-wrap: balance;
   }
 
   .quality-commitment__logos {
@@ -96,10 +104,12 @@
     column-gap: var(--qc-col-gap);
     row-gap: var(--qc-row-gap);
     align-items: center;
+    justify-items: center;
   }
 
   .quality-commitment__logo-item {
     min-width: 0;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,16 +129,42 @@
   }
 
   @media screen and (max-width: 1199px) {
+    .quality-commitment__inner {
+      max-width: calc(100% - (2 * var(--qc-inner-padding-desktop)));
+    }
+
     .quality-commitment__logos {
       margin-inline: auto;
-      max-width: 980px;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      max-width: 100%;
+      grid-template-columns: repeat(var(--qc-tablet-columns), minmax(0, 1fr));
+    }
+
+    .quality-commitment__logo {
+      max-height: var(--qc-logo-height-tablet);
     }
   }
 
   @media screen and (max-width: 749px) {
+    .quality-commitment {
+      padding-top: calc(var(--qc-padding-top) * 0.75);
+      padding-bottom: calc(var(--qc-padding-bottom) * 0.75);
+    }
+
+    .quality-commitment__inner {
+      max-width: calc(100% - (2 * var(--qc-inner-padding-mobile)));
+    }
+
+    .quality-commitment__heading {
+      line-height: 1.05;
+    }
+
     .quality-commitment__logos {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(var(--qc-mobile-columns), minmax(0, 1fr));
+      row-gap: max(18px, var(--qc-row-gap));
+    }
+
+    .quality-commitment__logo {
+      max-height: var(--qc-logo-height-mobile);
     }
   }
 {% endstylesheet %}
@@ -139,6 +175,16 @@
   "tag": "section",
   "class": "section-quality-commitment",
   "settings": [
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Content max width",
+      "min": 960,
+      "max": 1800,
+      "step": 10,
+      "unit": "px",
+      "default": 1510
+    },
     {
       "type": "text",
       "id": "heading",
@@ -225,12 +271,50 @@
     },
     {
       "type": "range",
+      "id": "logo_height_tablet",
+      "label": "Logo max height tablet",
+      "min": 36,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 82
+    },
+    {
+      "type": "range",
+      "id": "logo_height_mobile",
+      "label": "Logo max height mobile",
+      "min": 28,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
       "id": "desktop_columns",
       "label": "Desktop columns",
       "min": 6,
       "max": 12,
       "step": 1,
       "default": 8
+    },
+    {
+      "type": "range",
+      "id": "tablet_columns",
+      "label": "Tablet columns",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "mobile_columns",
+      "label": "Mobile columns",
+      "min": 2,
+      "max": 3,
+      "step": 1,
+      "default": 2
     },
     {
       "type": "range",
@@ -261,6 +345,26 @@
       "step": 2,
       "unit": "px",
       "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_desktop",
+      "label": "Side padding desktop",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_mobile",
+      "label": "Side padding mobile",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
     },
     {
       "type": "range",

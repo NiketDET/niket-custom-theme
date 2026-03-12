@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@import "./custom.css";
+
+@theme {
+  /* Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-light-grey: #f4f4f4;
+  --color-brand-red: #d71e47;
+  --color-brand-blue: #124a88;
+  --color-text: #001a38;
+  --color-text-muted: #777777;
+  --color-highlight-blue: #4aa0ff;
+
+  /* Font-family */
+  --font-body: "Roboto";
+  --font-heading: "Area Normal";
+  --font-inherit: inherit;
+
+  /* Font sizes */
+  --text-14: 14px;
+  --text-18: 18px;
+  --text-24: 24px;
+  --text-48: 48px;
+
+  /* Breakpoints */
+  --breakpoint-749: 749px;
+  --breakpoint-1100: 1100px;
+  --breakpoint-1200: 1200px;
+  --breakpoint-1512: 1512px;
+}
+
+@layer base {
+  ::before,
+  ::after {
+    @apply box-border;
+  }
+
+  html,
+  body {
+    @apply !scroll-smooth;
+  }
+
+  body {
+    @apply m-0 p-0 antialiased bg-white text-[var(--color-text)];
+    font-family: var(--font-body), var(--font-body--family), sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    @apply transition-all duration-300 ease-in-out cursor-pointer;
+  }
+
+  li,
+  p {
+    @apply m-0 text-[18px] leading-[28px];
+    font-family: var(--font-body), var(--font-body--family), sans-serif;
+  }
+
+  strong,
+  b {
+    @apply font-bold;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    @apply no-underline outline-0;
+  }
+
+  img {
+    @apply overflow-hidden select-none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply m-0;
+    font-family: var(--font-heading), var(--font-heading--family), sans-serif;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+}
+
